@@ -32,6 +32,11 @@ PAPER = {
     "mean_by_year_chart": dict(zip(YEARS, [0.085, 0.097, 0.092, 0.127, 0.153, 0.218, 0.270, 0.335,
                                            0.390, 0.403, 0.435, 0.455])),
     "table3": {"mean": 0.24, "sd": 0.22, "p1": 0.00, "p25": 0.00, "p50": 0.28, "p75": 0.45, "p99": 0.61},
+    # Table 3's Readability row: the level is the complete submission's size in BYTES (Appendix B says
+    # megabytes; the printed (ln) row only matches bytes -- EVALUATION.md section 4 C2)
+    "readability": {"mean": 10453409, "sd": 11546923, "p1": 384975, "p25": 1865855, "p50": 6163418,
+                    "p75": 15323736, "p99": 52900376},
+    "readability_ln": {"mean": 15.52, "sd": 1.22, "p1": 12.86, "p25": 14.44, "p50": 15.63, "p75": 16.54, "p99": 17.78},
     "zero_share": {2011: 0.4903, 2018: 0.1059},
     "disclosure_share": {2007: 0.2875, 2010: 0.39, 2012: 0.66, 2018: 0.90},
     "vocab_size": 3210,
@@ -176,6 +181,13 @@ def report(ok, vocab, counts, link):
         x = d[["cyber_risk", k]].dropna()
         t2[k] = {"paper": v, "ours": sps.pearsonr(x["cyber_risk"], x[k])[0] if len(x) > 2 else np.nan}
     out["table2"] = pd.DataFrame(t2).T
+    if s["readability"].notna().any():                    # filled from the bulk submissions archive
+        r, lr = s["readability"].dropna(), np.log(s["readability"].dropna())
+        stat = lambda x: {"mean": x.mean(), "sd": x.std(), "p1": x.quantile(.01), "p25": x.quantile(.25),
+                          "p50": x.quantile(.5), "p75": x.quantile(.75), "p99": x.quantile(.99)}
+        out["readability"] = pd.DataFrame({"paper": pd.Series(PAPER["readability"]), "ours": pd.Series(stat(r))})
+        out["readability_ln"] = pd.DataFrame({"paper": pd.Series(PAPER["readability_ln"]), "ours": pd.Series(stat(lr))})
+        out["readability_n"] = int(r.notna().sum())
     ins = s[s["mentions_insurance"] == 1]
     out["insurance_above_median"] = {"paper": 0.80, "ours": (ins["cyber_risk"] > s["cyber_risk"].median()).mean()}
     out["insurance"] = {"paper": PAPER["insurance_mention_share"], "ours": s["mentions_insurance"].mean()}

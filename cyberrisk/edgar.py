@@ -278,8 +278,9 @@ def item_1a(sentences):
         alt = _longest_span(sentences, _RF_TITLE, _RF_END)
         if alt and alt[1] - alt[0] > len(span):
             span = sentences[alt[0]:alt[1]]
-    # the stub test applies to whichever span was chosen (it used to be skipped on the
-    # "Risk Factors" fallback path: 30 "Not Applicable" filings scored 0 -- audit 2026-09-19)
+    # the stub test applies to whichever span was chosen (it used to be skipped on the "Risk
+    # Factors" fallback path, so stubs were scored 0: 14 of them in the scored sample and 206 in
+    # the whole 2026-09-19 run -- re-measured 2026-09-20 on the pre-fix output)
     if not span or is_stub(span):
         return [], False
     words = sum(len(s.text.split()) for s in span)

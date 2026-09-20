@@ -153,6 +153,31 @@ def target_rows(index_csv, ciks, years=range(2005, 2020)):
     return [r for r in edgar.filings_from_index(index_csv, years=years) if str(int(r["cik"])) in ciks]
 
 
+def submission_sizes(cik_accessions, submissions_zip):
+    """Appendix B `Readability` = "file size ... of the SEC complete submission text file".  The
+    streaming fetch stops at the first </DOCUMENT>, so the run never sees the whole file; SEC's
+    bulk submissions archive (https://www.sec.gov/Archives/edgar/daily-index/bulkdata/submissions.zip)
+    carries a `size` per accession instead.  MEASURED 2026-09-20: for accession 0001341004-07-003146
+    the field is 255,269 and the served .txt is 255,269 bytes.
+
+    cik_accessions: iterable of (cik, accession).  Returns {accession: size_in_bytes}."""
+    import zipfile
+    need = {}
+    for cik, acc in cik_accessions:
+        need.setdefault(f"CIK{int(cik):010d}", set()).add(acc)
+    z = zipfile.ZipFile(submissions_zip)
+    names = set(z.namelist())
+    out = {}
+    for key, accs in need.items():
+        for name in [f"{key}.json"] + [f"{key}-submissions-{i:03d}.json" for i in range(1, 12)]:
+            if name not in names:
+                continue
+            d = json.loads(z.read(name))
+            rec = d["filings"]["recent"] if "filings" in d else d
+            out.update({a: s for a, s in zip(rec["accessionNumber"], rec["size"]) if a in accs})
+    return out
+
+
 def disclosures_corpus(jsonl_paths, out, limit=None):
     """Paper §2.2 from EDGAR-CORPUS rows (filename, cik, year, section_1A)."""
     done = _done(out)

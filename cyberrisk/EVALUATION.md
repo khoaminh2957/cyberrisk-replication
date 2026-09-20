@@ -4,7 +4,7 @@ Ngày 2026-09-09. Mục tiêu đặt ra: dựng lại toàn bộ bài, kiểm tr
 
 ## 1. Kết luận (cập nhật 2026-09-20)
 
-* **Phương pháp của bài được dựng lại, một module cho một bước** (bảng phủ ở mục 2): 12 bảng, 2 hình, Phụ lục A và B, IA7–IA14. Ngoại lệ: biến patent flow/stock chưa cài; AIA (Bloomberg) là đầu vào, code không tính.
+* **Phương pháp của bài được dựng lại, một module cho một bước** (bảng phủ ở mục 2): 12 bảng, 2 hình kết quả (Hình 3 của bài là dòng thời gian vụ SolarWinds, không phải kết quả, nên không dựng), Phụ lục A và B, IA7–IA14. Ngoại lệ: biến patent flow/stock chưa cài; AIA (Bloomberg) là đầu vào, code không tính.
 * **Nửa văn bản đã ra số trên dữ liệu công khai** (mục 9, lần chạy v6): 8,390 hồ sơ 10-K tải từ EDGAR; mẫu huấn luyện dựng từ PRC 2005–2018, 288 vụ nối được với 215 công ty. Các con số của bài tái lập được:
 
 | Con số của bài | Bài | Bản này |
@@ -28,14 +28,14 @@ Ngày 2026-09-09. Mục tiêu đặt ra: dựng lại toàn bộ bài, kiểm tr
 
   Không khác biệt nào có cơ chế được xác lập; các ứng viên ở mục 9. Bốn đầu vào của bài không có ở đây: mẫu Compustat, cờ "major" của Factiva, bảng nối tên làm tay của tác giả, và toàn bộ corpus. Vì corpus nhỏ hơn, từ vựng có 2,092 gốc từ so với 3,210 của bài.
 * **Nửa tài chính (Bảng 4–5, 7–12, IA) chưa ra số**: cần CRSP/Compustat/13F/BoardEx/FactSet/Bloomberg. Không có tài khoản WRDS. Code đã viết theo bài, kiểm bằng dữ liệu tổng hợp và bằng ví dụ tính tay; phần này bị chặn bởi dữ liệu, không phải bởi code. Còn 6 lỗi code đã xác nhận ở nửa này chưa sửa (§11.3).
-* **Test**: 74 test, 73 pass; 1 test mạng chỉ chạy khi bật `--run-network`. Kết quả giống nhau qua 5 hash seed. Độ phủ mã nguồn 79% (đo 2026-09-20, không chạy test mạng). Hai file 0% là `fetch_data.py` (tải dữ liệu) và `wrds_extract.py` (chưa chạy vì không có WRDS). Các con số chính được ghim bằng test hồi quy.
+* **Test**: 76 test, 75 pass; 1 test mạng chỉ chạy khi bật `--run-network`. Kết quả giống nhau qua 5 hash seed. Độ phủ mã nguồn 79% (đo 2026-09-20, không chạy test mạng). Hai file 0% là `fetch_data.py` (tải dữ liệu) và `wrds_extract.py` (chưa chạy vì không có WRDS). Các con số chính được ghim bằng test hồi quy.
 
 ## 2. Bảng phủ
 
 | Phần của bài | Code | Đã kiểm bằng | Dữ liệu |
 |---|---|---|---|
 | §2.2 crawl 10-K/10-K405/10-KSB40, bỏ /A, năm tài chính + CIK từ header, Item 1A, loại incorporate-by-reference | `edgar.py`, `pipeline.disclosures_edgar` | 8 hồ sơ 2006 thật chạy end-to-end; 4 hồ sơ 2017 thật (Phụ lục A.2); 8,390 hồ sơ 2005–2019 (mục 9) | EDGAR (miễn phí) + index 1993–2026 đã có trong `AI_Innovation_Atlas_data` |
-| Phụ lục A.1: bảng từ khóa trực tiếp/gián tiếp, prefix, relevant/irrelevant hit, cửa sổ tới tiêu đề in đậm/nghiêng hoặc 10 câu | `keywords.py`, `extract.py` | **68/68 câu đúng trạng thái bắt/bỏ như bài** (64 bắt, 4 bỏ sót đúng như bài); 12 unit test luật | – |
+| Phụ lục A.1: bảng từ khóa trực tiếp/gián tiếp, prefix, relevant/irrelevant hit, cửa sổ tới tiêu đề in đậm/nghiêng hoặc 10 câu | `keywords.py`, `extract.py` | **68/68 câu đúng trạng thái bắt/bỏ như bài** (64 bắt, 4 bỏ sót đúng như bài); 7 test luật trong `test_text_modules.py` cộng 4 test Phụ lục A.2 | – |
 | §2.3 mẫu huấn luyện PRC: bỏ GOV/EDU/NGO, chỉ HACK, cờ "major" (Factiva), nối tên → công ty | `training.py`, `link_prc.py` | số vụ theo năm so với Hình 1 (mục 9.1); bảng nối theo một quy tắc cố định (mục 5 #33), dựng lại được, có test | PRC export gốc + Tableau archive (miễn phí); Factiva không có |
 | §2.4 loại từ, gốc từ, tần suất ≥ 10, vector đếm, cosine & Jaccard, cửa sổ 1 năm/2 năm | `roots.py`, `measure.py` | unit test cửa sổ, loại trừ chính mình, ngưỡng tần suất áp trên từ trước khi quy gốc; 8,390 hồ sơ: 18/20 từ top-20 trùng bài | WordNet (MW bị chặn) |
 | §3.2 Bảng 2: số câu CRD, tỷ lệ, từ tiêu cực/chính xác/pháp lý (LM), bảo hiểm mạng | `language.py` | unit test, kể cả luật bảo hiểm "một phần" trong cùng câu | LM 1993–2025 đã có trên đĩa |
@@ -50,7 +50,7 @@ Ngày 2026-09-09. Mục tiêu đặt ra: dựng lại toàn bộ bài, kiểm tr
 ## 3. Các vòng kiểm tra
 
 1. **Vòng 1 — ground truth của bài (dữ liệu thật).** `tests/test_appendix_a2.py`: tải 4 hồ sơ 10-K FY2017 từ EDGAR, tách Item 1A, chạy thuật toán, so từng câu với Phụ lục A.2. Kết quả: trạng thái bắt/bỏ trùng 68/68; số câu bắt trùng 23/23, 8/8, 20/20, 13/13. Nhãn *loại câu* (Direct/Company Business/…) trùng 58/64 — và 58 là mức tối đa với **mọi** thứ tự ưu tiên có thể (đã thử cả 24 hoán vị): 6 câu còn lại bài gắn nhãn không suy ra được từ bảng luật đã in (ví dụ Apple #7 chứa "security breach" — từ khóa trực tiếp — nhưng bài ghi Indirect). POST-HOC: nhãn loại câu trong phụ lục không phải là hàm tất định của bảng luật; nhãn không ảnh hưởng đến thước đo (vector lấy toàn bộ câu bắt được).
-2. **Vòng 2 — unit test luật và toán** (`test_text_modules.py`, `test_finance_synthetic.py`, `test_tables_synthetic.py` và các file test còn lại; số test hiện tại ở mục 1). Cửa sổ 10 câu (không phải 11), dừng tại tiêu đề, cửa sổ 2 năm dự phòng, loại trừ chính mình, P1 = điểm 0, mẫu 03/2008–03/2019 đúng 133 tháng, Newey-West, FE two-way, logit, Fama-MacBeth, CAR — mỗi thứ có một test cụ thể.
+2. **Vòng 2 — unit test luật và toán** (`test_text_modules.py`, `test_finance_synthetic.py`, `test_tables_synthetic.py` và các file test còn lại; số test hiện tại ở mục 1). Cửa sổ 10 câu (không phải 11), dừng tại tiêu đề, cửa sổ 2 năm dự phòng, loại trừ chính mình, P1 = điểm 0, mẫu 03/2008–03/2019 đúng 133 tháng, Fama-MacBeth và CAR có test riêng; Newey-West và logit có test đối chiếu với một cài đặt thứ hai (thêm 2026-09-20); hiệu ứng cố định hai chiều chỉ được chạy gián tiếp qua test bảng trên dữ liệu tổng hợp — và mục 12 cho thấy chỗ đó có lỗi bậc tự do.
 3. **Vòng 3 — audit theo từng trang bài.** Kế hoạch là ba tác nhân độc lập đọc PDF gốc; cả ba bị API cắt (rate limit) trước khi ra bất kỳ phát hiện nào. Vòng này do tôi tự làm — tức là **không độc lập** với người viết code, nên yếu hơn một audit độc lập. Phát hiện và xử lý ở mục 4.
 4. **Vòng 4 — chạy lại toàn bộ sau sửa + mẫu dữ liệu thật**: 8 hồ sơ 2006 (đường raw EDGAR), 400 văn bản Item 1A 2019 (đường EDGAR-CORPUS) → từ vựng, vector, thước đo, Bảng 2 chạy thông; top-20 từ trùng bài 16/20.
 5. **Vòng 5 — ra số trên dữ liệu thật (2026-09-19).** 7,741 10-K, mẫu huấn luyện từ PRC; so từng con số của bài có thể tính bằng dữ liệu công khai (mục 9). Vòng này tìm ra 10 lỗi (mục 10), trong đó có một luật do chính tôi thêm và bị thí nghiệm bác bỏ. Kết quả chính được tính lại lần hai bằng cài đặt độc lập (8/8 trùng tới 1e-9).
@@ -66,9 +66,10 @@ làm, đọc lại toàn văn bài và so từng mục. Kết quả:
 
 1. **Phụ lục A, bảng từ khóa** — đối chiếu từng dòng, từng từ của cả 4 nhóm (trực tiếp; gián tiếp
    2.1 company business, 2.2 internal, 2.3 legal, 2.4 economic). Không thiếu, không thừa, không sai
-   chính tả. Một chỗ bản PDF nhòe: dòng "Business | Adversely, material, harm disruptive, negative"
-   — đọc là "harm, disruptive" (code làm vậy); đọc kiểu khác thì cụm "harm disruptive" gần như
-   không bao giờ xuất hiện.
+   chính tả. Một chỗ code sửa chữ của bài: dòng "Business | Adversely, material, harm disruptive,
+   negative" được tách thành hai từ "harm" và "disruptive". Bản PDF ở đó **đọc được rõ** (kiểm lại
+   2026-09-20, mục 12): bài in "harm disruptive" không có dấu phẩy. Đây là một **lựa chọn** (cụm
+   "harm disruptive" gần như không bao giờ xuất hiện), không phải việc đọc một bản scan mờ.
 2. **§2.2 loại hồ sơ**: bài dùng 10-K, 10-K405, 10-KSB40, bỏ bản sửa đổi (/A) → `edgar.FORMS`
    đúng nguyên văn. ĐO ĐƯỢC trên index dùng ở đây (đã lọc theo bộ form của Atlas): trong ba loại, các
    năm nộp 2004–2020 chỉ có 10-K (139,788 hồ sơ); 10-K405 xuất hiện lần cuối năm 2002. Index này
@@ -91,7 +92,7 @@ làm, đọc lại toàn văn bài và so từng mục. Kết quả:
    sách này viết lại 2026-09-20 sau khi thêm test): Tobin's q, ROA = oibdp/at, tangibility =
    ppent/at, R&D thay NaN bằng 0, leverage, asset growth, firm age theo lần đầu xuất hiện trong
    Compustat, momentum t−11..t−1, reversal r(t), beta và IVOL (độ lệch chuẩn phần dư FF3) trên
-   cửa sổ 60 tháng tối thiểu 24, CoSkew, illiquidity Amihud, MAX = trung bình 5 lợi suất ngày cao
+   cửa sổ 60 tháng, CoSkew, illiquidity Amihud, MAX = trung bình 5 lợi suất ngày cao
    nhất, NCSKEW, EXTR_SIGMA, cash-flow volatility theo ngành, institutional ownership chỉ tính tổ
    chức giữ > 5%, risk committee, secrets (cả biên cửa sổ 5 từ). Chưa cài: patent flow/stock. Biến
    "đã từng bị tấn công" chỉ có test tổng hợp.
@@ -139,7 +140,7 @@ làm, đọc lại toàn văn bài và so từng mục. Kết quả:
 (cửa sổ [−1,+1] và [−1,+3] cho ra đúng con số cấy sẵn; cửa sổ sự kiện thiếu ngày trả NaN chứ không
 trả 0). Hai kiểm tra này nay là test cố định.
 
-**E. Độ phủ test: 79%** mã nguồn (không tính file test), đo bằng `coverage` ngày 2026-09-20 với 74 test, không chạy test mạng. Các con số ghi trước đây (91.5%, 88%, 77%) đo trên bộ code và bộ test của thời điểm khác; không dùng nữa. Phần chưa phủ chủ yếu: tải dữ liệu (`fetch_data.py` 0%), trích xuất WRDS (`wrds_extract.py` 0%, chưa chạy vì không có tài khoản), các nhánh gọi mạng của `pipeline.py` và `gtrends.py`. Test mạng chạy bằng `--run-network`; lần chạy gần nhất là 2026-09-19, pass.
+**E. Độ phủ test: 79%** mã nguồn (không tính file test), đo bằng `coverage` ngày 2026-09-20 với 76 test, không chạy test mạng. Các con số ghi trước đây (91.5%, 88%, 77%) đo trên bộ code và bộ test của thời điểm khác; không dùng nữa. Phần chưa phủ chủ yếu: tải dữ liệu (`fetch_data.py` 0%), trích xuất WRDS (`wrds_extract.py` 0%, chưa chạy vì không có tài khoản), các nhánh gọi mạng của `pipeline.py` và `gtrends.py`. Test mạng chạy bằng `--run-network`; lần chạy gần nhất là 2026-09-19, pass.
 
 ## 5. Những điểm bài KHÔNG nêu rõ, code phải tự chọn (mỗi điểm ghi trong docstring)
 
@@ -186,6 +187,14 @@ Nhãn theo RULE 0: đây là **lựa chọn**, không phải "bài làm vậy".
 | 37 | Bảng 6 khi chỉ có mẫu ngẫu nhiên | case-control: đối chứng = mẫu ngẫu nhiên, ca = công ty-năm ngay trước vụ tấn công; độ dốc logit nhất quán (Prentice & Pyke 1979) | toàn bộ công ty-năm (cần tải mọi 10-K) |
 | 38 | 10-K nộp chung nhiều CIK (US Airways Group / US Airways Inc) | là 10-K của mọi đơn vị cùng nộp; bản sao không vào mẫu chấm điểm | chỉ một CIK |
 | 39 | Ngưỡng tần suất < 10 áp trên từ hay trên gốc từ | trên từ, trước khi quy về gốc (từ v5). Câu của bài: loại các loại từ, kể cả "words with a frequency less than 10", rồi mới lưu vector "using word roots". Đây là cách đọc thứ tự câu, không có thí nghiệm phân biệt | trên gốc từ (code trước v5) |
+| 40 | "common words" trong câu loại từ của §2.4 | **không** loại (bài giữ "result", "include", "system" trong top-20 nên danh sách phải ngắn) | loại theo tần suất tài liệu |
+| 41 | Cửa sổ ước lượng phần dư cho NCSKEW / EXTR_SIGMA | một hồi quy thị trường cho toàn bộ lịch sử tuần của công ty, rồi cắt theo năm dương lịch | hồi quy riêng từng công ty-năm |
+| 42 | Ngưỡng tối thiểu cho beta và IVOL | dùng chung mức ≥ 24 tháng của CoSkew; bài chỉ nêu mức này cho CoSkew | không đặt ngưỡng cho beta/IVOL |
+| 43 | Cửa sổ 60 tháng đếm theo dòng hay theo tháng dương lịch | theo dòng (`vals[k-59:k+1]`), nên chuỗi CRSP bị đứt sẽ trải dài hơn 60 tháng | theo tháng dương lịch |
+| 44 | Ngày chú ý cực đoan rơi vào cuối tuần / ngày nghỉ | bỏ (dummy được chiếu về ngày giao dịch) | dời sang ngày giao dịch kế tiếp |
+| 45 | IA7 panel B: "median industry value" | trung vị của các điểm **dương** trong ngành-năm | trung vị của mọi điểm, kể cả 0 |
+| 46 | Các ngưỡng quan sát tối thiểu bài không nêu | Fama-MacBeth ≥ 30 cổ phiếu/tháng, CAR ≥ 60 ngày ước lượng, NCSKEW ≥ 26 tuần, nhân tố ≥ 2k cổ phiếu/tháng, cash-flow volatility ≥ 3 năm; t-test Welch cho Bảng 12 | các ngưỡng khác |
+| 47 | Dòng từ khóa "Business" của bài in "harm disruptive" | tách thành "harm" và "disruptive" | giữ nguyên cụm |
 
 Dòng #27, #28, #30 mô tả đường raw EDGAR, là đường dùng cho mọi con số ở mục 9. Đường EDGAR-CORPUS (chỉ dùng cho phép thử 400 văn bản ở mục 7) không áp `is_stub`, dùng quy tắc by-reference khác, và lấy năm tài chính = năm nộp − 1.
 
@@ -384,6 +393,22 @@ Quan sát:
 
 **MECHANISM: UNKNOWN** cho cả khoảng cách với bài lẫn mức giảm giữa các lần chạy. Các ứng viên chưa kiểm được đều cần dữ liệu không có: toàn bộ công ty-năm thay vì case-control, cờ "major" của Factiva, vũ trụ Compustat, bảng nối tên của tác giả.
 
+### 9.10 Bảng 3 — Readability (bổ sung 2026-09-20)
+
+Bài định nghĩa *Readability* là kích thước file "complete submission" của 10-K. Bộ tải ở đây dừng ở cuối văn bản 10-K nên không biết kích thước cả file; mục 12 (vòng 1) phát hiện ra chỗ thiếu này. Kích thước lấy từ kho submissions bulk của SEC (trường `size`, `pipeline.submission_sizes`). **Kiểm chứng:** với hồ sơ 0001341004-07-003146, trường này ghi 255,269 và file `.txt` tải về đúng 255,269 byte.
+
+| phân vị | bài (byte) | bản này (byte) | bài (ln) | bản này (ln) |
+|---|---|---|---|---|
+| mean | 10,453,409 | 13,413,927 | 15.52 | 15.78 |
+| sd | 11,546,923 | 18,473,190 | 1.22 | 1.25 |
+| p1 | 384,975 | 252,225 | 12.86 | 12.44 |
+| p25 | 1,865,855 | 2,684,668 | 14.44 | 14.80 |
+| p50 | 6,163,418 | 9,280,731 | 15.63 | 16.04 |
+| p75 | 15,323,736 | 18,174,560 | 16.54 | 16.72 |
+| p99 | 52,900,376 | 72,463,896 | 17.78 | 18.10 |
+
+N = 3,083 trên 3,092 công ty-năm (9 hồ sơ không có trong kho bulk). Hồ sơ ở đây lớn hơn của bài ở mọi phân vị trừ P1; trung vị lệch 0.41 đơn vị log. **MECHANISM: UNKNOWN.** Ứng viên chưa phân biệt được: (a) vũ trụ công ty khác (proxy niêm yết so với Compustat); (b) trường `size` của SEC tính cả phần XBRL đính kèm, còn bài có thể đo bản đã lưu của họ; (c) phân bố năm khác nhau, vì kích thước hồ sơ tăng mạnh theo thời gian.
+
 ### 9.9 Kiểm chứng lần hai (RULE 0 mục 5)
 
 * **Eq. (1) tính lại độc lập** (numpy, tự lọc cửa sổ, không dùng `measure.py`) trên 8 công ty-năm ngẫu nhiên của v6: 8/8 trùng tới 1e-9. Trên v4, phép tính này lúc đầu chỉ khớp 6/8. Cả hai ca lệch đều có vụ US Airways trong cửa sổ; khi thêm bản sao của 10-K nộp chung thì khớp 8/8.
@@ -461,7 +486,7 @@ Ba mục đầu là các mục §11.3 cũ được chọn sửa (nhóm "code n�
 20. §9 (trước v6): "mẫu ngẫu nhiên 450 hồ sơ mỗi năm nộp 2007–2019 (5,748)". Lần rút có 450 × 13 = 5,850 dòng; 5,748 là số dòng còn lại sau khi driver bỏ 102 dòng trùng phần công ty huấn luyện. Chính chỗ vênh này dẫn tới lỗi ở mục 10 dòng 11 (tìm ra 2026-09-20).
 21. Docstring `link_prc.py`: "The rule was fixed before the counts were compared with the paper" không đúng với quy tắc R*, vì R* được viết sau khi đã thấy số v4 (tìm ra 2026-09-20).
 
-**Trạng thái 2026-09-20:** cả 21 mục đã được sửa ở nơi chúng xuất hiện: tài liệu này, docstring và comment trong code, và trang báo cáo. Danh sách giữ lại làm hồ sơ; số trong từng mục là số lúc tìm ra (v4), số hiện hành ở mục 9.
+**Trạng thái 2026-09-20:** cả 21 mục đã được sửa ở nơi chúng xuất hiện (vòng kiểm tra sau đó tìm thêm 14 mục nữa, ghi ở mục 12): tài liệu này, docstring và comment trong code, và trang báo cáo. Danh sách giữ lại làm hồ sơ; số trong từng mục là số lúc tìm ra (v4), số hiện hành ở mục 9.
 
 Lỗi của chính vòng audit, tự bắt được: tôi báo "73 hồ sơ Item 1A siêu ngắn (2.4%)" vì tra dữ liệu thô bằng dict mà chưa bỏ 503 dòng lỗi; đúng là 24 (0.8%). Thí nghiệm Bảng 6 dùng 147 ca trong khi pipeline dùng 148; chạy lại cùng tập ca: V0 = 1.540 trùng pipeline, bootstrap 1/400 mẫu ≤ 0.961 (không phải 0/400). Phép tính lại Eq. (1) độc lập trên v4 lúc đầu khớp 6/8; hai ca lệch đều có vụ US Airways trong cửa sổ, thêm bản sao 10-K nộp chung thì khớp 8/8.
 
@@ -493,3 +518,64 @@ Lỗi của chính vòng audit, tự bắt được: tôi báo "73 hồ sơ Item
 * Tr. 360: "the first cyberattack occurred in 2006", nhưng Hình 1 ghi [1] trên năm 2005 (ở đây dùng số của hình).
 * Số trong ngoặc ở Hình 2 cộng lại 179; văn bản nói 175 và "125 (71.4%)".
 * Phụ lục A.2 gọi các câu phụ của Apple/GM là "outside Item 1A", nhưng trong báo cáo thật các câu đó nằm trong Item 1A (ở đây trích được từ Item 1A).
+
+## 12. Năm vòng kiểm tra hallucination và thiếu sót (2026-09-20)
+
+**Cách làm.** Ba vòng đầu do ba agent chạy độc lập với nhau và với người viết code: (1) đi từ bài sang code để tìm chỗ bài có mà code không có; (2) đối chiếu mọi con số gán cho "bài" trong tài liệu, README, notebook, trang báo cáo và dict `PAPER` với bản PDF; (3) đọc từng hàm của nửa tài chính — phần chưa bao giờ chạy trên dữ liệu thật — so với câu chữ của bài. Vòng 4 và 5 do tôi làm: kiểm chứng cứ đằng sau mỗi khẳng định trong tài liệu (tên file, tên hàm, tham chiếu mục, mỗi chỗ ghi "có test"), rồi đo lại các con số đầu bảng bằng một cài đặt thứ hai. **Mọi phát hiện của agent đều được tôi chạy lại hoặc đọc lại trước khi ghi vào đây; mục nào tôi không kiểm được thì ghi rõ.**
+
+**Điều giữ vững.** Agent vòng 2 kiểm khoảng 280 giá trị và trích dẫn gán cho bài: **không có con số nào bị bịa**, và không có con số nào tìm không ra trong bài. Toàn bộ dict `PAPER` (Bảng 1, 2, 3, 6, chuỗi 175 vụ, từ vựng 3,210 và danh sách 20 từ, thứ tự ngành Hình 2) khớp PDF. Agent vòng 1 thống kê khoảng 140 đặc tả thao tác của bài và thấy khoảng 105 đã cài đúng. Vòng 5 dựng lại Bảng 3 bằng numpy thuần và Bảng 6 bằng logit tự viết cùng ma trận sandwich cluster tự viết: hệ số trùng tới 1.3e-7 và 1e-4.
+
+### 12.1 Khẳng định sai trong tài liệu, đã sửa
+
+| # | Khẳng định | Sự thật (đã kiểm) |
+|---|---|---|
+| 1 | Notebook: "§3.6 Bảng 6 Model 1" | Bài không có §3.6; Bảng 6 nằm trong §3.5 "Firm outcomes" |
+| 2 | Notebook: "Compustat: 10/16 biến của Bảng 3" | Compustat cấp 7/16 dòng; 10/16 là tổng mọi nguồn có giấy phép, mà 13F và BoardEx đã đếm riêng ở dòng khác |
+| 3 | §4 A1: "một chỗ bản PDF nhòe" ở dòng từ khóa Business | Trang 393 đọc rõ ở mức 600 dpi và ở bản kết xuất tôi tự xem: bài in "harm disruptive" không có dấu phẩy. Việc tách hai từ là **lựa chọn** (mục 5 #47), không phải đọc scan mờ |
+| 4 | §1: "12 bảng, 2 hình" | Bài có 3 hình; Hình 3 là dòng thời gian vụ SolarWinds |
+| 5 | README repo công khai: leverage là biến Compustat của Bảng 3–6 | Leverage chỉ có trong Phụ lục B, không xuất hiện ở Bảng 3, 4, 5, 6 hay 9 |
+| 6 | §3 vòng 2: "Newey-West, FE hai chiều, logit — mỗi thứ có một test cụ thể" | Newey-West và logit **nay mới có** test đối chiếu cài đặt thứ hai; FE hai chiều vẫn chỉ chạy gián tiếp, và chính chỗ đó có lỗi (12.3 mục 4) |
+| 7 | README + notebook: "bản clone sạch: 68 pass, 6 skip" | Đo trên bản clone thật từ GitHub: **64 pass, 10 skip**. Số cũ đo trên thư mục đã bị các ô notebook tải thêm file vào — lại đúng lớp lỗi "đọc trạng thái tạm thời như sự thật" |
+| 8 | Comment trong `edgar.py`: "30 hồ sơ Not Applicable bị chấm 0" | Đo lại trên dữ liệu trước khi sửa: **14** trong mẫu chấm điểm, **206** trong toàn bộ lần chạy |
+| 9 | §2: "12 unit test luật" cho Phụ lục A.1 | Đếm được 7 test luật trong `test_text_modules.py` cộng 4 test Phụ lục A.2 |
+| 10 | §4 A8: "beta và IVOL trên cửa sổ 60 tháng tối thiểu 24" | Phụ lục B chỉ nêu mức tối thiểu 24 tháng cho **CoSkew**; áp cho beta và IVOL là lựa chọn của code (mục 5 #42) |
+| 11 | §9.1 gọi chuỗi 175 vụ là "mẫu huấn luyện" của bài | Mẫu huấn luyện gốc của bài là **69 vụ "major" = 54 công ty-năm**; 175 là biến thể "mọi vụ" mà bản này dùng. Hai số 69/54 trước nay chỉ nằm trong docstring `training.py` |
+| 12 | §4 C13 và `roots.py`: "3,210 gốc từ của bài" | Bài viết "universe of all **words** ... is 3,210"; gọi là gốc từ là suy ra, không phải chữ của bài |
+| 13 | §11 và §9: "số đọc Hình 1 lệch tối đa 0.0012 so với đo pixel" | Lần đo pixel thứ hai cho lệch lớn nhất 0.0017 (năm 2015). Cả hai đều nằm trong sai số đọc ±0.005 đã ghi |
+| 14 | Docstring `is_stub`: "bài loại các hồ sơ này" | Bài chỉ nói loại công ty **không có mục Item 1A**; mục Item 1A ghi "Not applicable" là suy luận của bản này (mục 5 #30 ghi đúng là lựa chọn) |
+
+### 12.2 Thiếu sót so với bài — nửa văn bản
+
+| Thiếu | Trạng thái |
+|---|---|
+| `Readability` (kích thước file nộp) chưa bao giờ được tính, vì bộ tải dừng ở cuối văn bản 10-K | **Đã bổ sung 2026-09-20** bằng kho submissions bulk của SEC; hai dòng Bảng 3 nay so được với bài (mục 9.10) |
+| Biến "đã từng bị tấn công" (Bảng 6 Model 2, 4, 6) không có hàm dựng, dù chỉ cần dữ liệu PRC đã có | Chưa làm |
+| Footnote 12: tương quan của thước đo với 5 hệ số tải nhân tố FF5 | Chưa cài |
+| §6.2: hồi quy alpha 12 ngành — bước chọn ra Energy và Durables cho IA7 panel H | Chưa cài; code chỉ thực hiện **hệ quả** (loại hai ngành đó) |
+| Patent flow / stock (IA9); cột `excerpt` cho Bảng 1; tham số hóa Jaccard (IA.2–IA.6) và bộ kiểm soát Bảng 9 (IA11–IA12) | Chưa cài |
+| Cửa sổ dự phòng 2 năm kích hoạt khi **không tìm được vector**, còn footnote 9 nói khi **không có vụ tấn công nào** | Đã đo: trong mẫu này **0/3,092** công ty-năm khác nhau giữa hai luật |
+| Văn bản quá khứ của công ty huấn luyện phải nộp **trong cửa sổ**; bài chỉ nói vụ tấn công nằm trong cửa sổ | Đã đo: N_train trung bình 18.8 → 19.6, trung vị điểm 0.3234 → 0.3220, 111/3,092 công ty-năm đổi quá 0.01 |
+
+### 12.3 Lỗi code đã xác nhận ở nửa tài chính (chưa chạy trên dữ liệu thật, nên chưa ảnh hưởng con số nào)
+
+Tôi tự chạy lại từng mục dưới đây trên dữ liệu tổng hợp.
+
+| # | Lỗi | Bằng chứng tôi chạy lại |
+|---|---|---|
+| 1 | `factor.table10` thả NaN ở biến phụ thuộc: một ngày thiếu làm **cả bảng thành NaN**, trong khi cột n vẫn ghi đủ số quan sát | 200 ngày, đặt 1 ngày NaN → cả 4 dòng NaN, n = 200; điền NaN đó thì ra số hữu hạn |
+| 2 | `portfolios.assign_terciles` đưa điểm NaN vào **nhóm 3** — chân mua của chênh lệch | điểm {0, 0.2, 0.9, NaN} → nhóm {1, 2, 3, **3**} |
+| 3 | `portfolios.holding_returns` ghi **0.00%** cho tháng không có lợi suất nào để nắm | thành viên không có trong CRSP → 0.0 cho cả 3 tháng; thành viên có nhưng thiếu tháng đầu → 0.0 tháng đó |
+| 4 | `stats.ols_fe` khử hiệu ứng cố định bằng trừ trung bình nhưng không trừ bậc tự do đã hấp thụ → sai số chuẩn cluster nhỏ hơn thực, t bị thổi | panel 200 công ty × 10 năm: hệ số trùng LSDV tới 1e-6, t 25.74 so với 24.36 (+5.7%), tỷ lệ sai số chuẩn 0.9465 **khớp đúng** hệ số bậc tự do kỳ vọng 0.9465. R² trả về là R² nội bộ, không phải R² của bài |
+| 5 | `portfolios.table7_panel_b` nhận `crsp_m` nhưng không dùng, nên Panel B mô tả vũ trụ và điểm cắt khác Panel A | đọc code: `portfolio_returns` lọc theo CRSP trước khi chia nhóm, `table7_panel_b` thì không |
+| 6 | `variables.link_disclosures` là merge nhiều-nhiều không chặn: một điểm 10-K nhân thành nhiều dòng công ty-năm nếu có hai liên kết CCM cùng hiệu lực | đọc code: không có bước khử trùng hay kiểm tính duy nhất |
+| 7 | `solarwinds.table12` chạy logit không `dropna`, khác với panel B | đọc code |
+| 8 | Truy vấn 13F lấy theo `cusip` còn `institutional_ownership` cần `permno`; không có bước nối cusip → permno | đọc `wrds_extract.py` và `variables.py`; `crsp_names` được kéo về nhưng không ai dùng |
+| 9 | Winsorize 1%/99% theo năm chỉ chạy trong Bảng 3; bài nói winsorize "the continuous variables **in the sample**" | grep toàn gói: chỉ một chỗ gọi `winsorize_by_year` |
+
+Chín mục này **chưa sửa**: nhóm nửa tài chính chưa được chọn sửa. Sửa chúng không đổi con số nào hiện có, vì nửa đó chưa chạy trên dữ liệu thật.
+
+### 12.4 Lỗi của chính vòng kiểm tra này
+
+* Tôi báo "bản clone sạch 68 pass, 6 skip" sau khi đo trên thư mục đã bị ô notebook tải thêm file; số đúng là 64 pass, 10 skip (12.1 mục 7).
+* Tôi so file CSV công bố với pickle bằng cách gán chỉ mục theo `accession`, trong khi 9 bản sao hồ sơ nộp chung dùng chung accession, và kết luận sai rằng có sai lệch 0.0197. Khóa lại theo (accession, cik, bản sao) thì lệch lớn nhất là 1e-16.
+* Test đối chiếu logit tôi viết lần đầu chỉ tính một trong hai hệ số hiệu chỉnh mẫu nhỏ của statsmodels; test fail và tôi sửa công thức, không sửa ngưỡng.

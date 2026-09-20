@@ -178,3 +178,48 @@ def test_secrets_window_boundary():
     'within a five-word window' may mean at most 4 intervening words -- open item, EVALUATION 11.3."""
     assert V.secrets_dummy("protect a b c d e trade secrets") == 1
     assert V.secrets_dummy("protect a b c d e f trade secrets") == 0
+
+
+# --- estimators in stats.py, each against a second implementation ------------------------------
+def test_newey_west_matches_the_bartlett_formula():
+    """nw_mean must be the textbook HAC mean: S = g0 + 2*sum (1 - l/(L+1)) * gl, var = S/n."""
+    from cyberrisk.stats import nw_mean
+    rng = np.random.default_rng(7)
+    e = rng.normal(size=400); x = np.empty(400); x[0] = e[0]
+    for i in range(1, 400):
+        x[i] = 0.5 * x[i - 1] + e[i]                      # AR(1): HAC differs from OLS here
+    L, n, dev = 12, len(x), x - x.mean()
+    S = dev @ dev / n + 2 * sum((1 - l / (L + 1)) * (dev[l:] @ dev[:-l]) / n for l in range(1, L + 1))
+    mean, t, k = nw_mean(x, lags=L)
+    assert k == n and abs(mean - x.mean()) < 1e-12
+    assert abs(t - x.mean() / np.sqrt(S / n)) < 1e-9
+
+
+def test_logit_matches_an_independent_fit_and_cluster_sandwich():
+    """stats.logit (statsmodels) against a hand-rolled likelihood and cluster sandwich.  The
+    coefficient must agree to 1e-6; the standard error differs only by the two finite-sample
+    factors statsmodels applies to a cluster covariance, (N - 1) / (N - k) and G / (G - 1)
+    -- measured 2026-09-20."""
+    from scipy import optimize
+    from cyberrisk.stats import logit
+    rng = np.random.default_rng(11)
+    n_firms, T = 120, 8
+    firm = np.repeat(np.arange(n_firms), T); year = np.tile(np.arange(T), n_firms)
+    x = rng.normal(size=n_firms * T)
+    p = 1 / (1 + np.exp(-(-1.5 + 0.8 * x + 0.3 * rng.normal(0, 1, n_firms)[firm])))
+    d = pd.DataFrame({"firm": firm, "year": year, "x": x, "y": rng.binomial(1, p)})
+    m = logit(d, "y", ["x"], fe=("year",), cluster="firm")
+
+    X = np.column_stack([np.ones(len(d)), d["x"].values, pd.get_dummies(d["year"], drop_first=True, dtype=float).values])
+    y = d["y"].values.astype(float)
+    nll = lambda b: np.sum(np.log1p(np.exp(X @ b)) - y * (X @ b))
+    grad = lambda b: X.T @ (1 / (1 + np.exp(-(X @ b))) - y)
+    b = optimize.minimize(nll, np.zeros(X.shape[1]), jac=grad, method="BFGS", options={"maxiter": 2000}).x
+    pr = 1 / (1 + np.exp(-(X @ b)))
+    A = np.linalg.inv((X * (pr * (1 - pr))[:, None]).T @ X)
+    u = X * (y - pr)[:, None]
+    meat = sum(np.outer(u[d["firm"].values == f].sum(0), u[d["firm"].values == f].sum(0)) for f in d["firm"].unique())
+    se_hand = np.sqrt((A @ meat @ A)[1, 1])
+    n, k, G = len(d), X.shape[1], d["firm"].nunique()
+    assert abs(m.params["x"] - b[1]) < 1e-6
+    assert abs(m.bse["x"] / se_hand - np.sqrt((n - 1) / (n - k) * G / (G - 1))) < 1e-6
