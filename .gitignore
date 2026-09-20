@@ -1,0 +1,20 @@
+# downloaded inputs (the notebook / fetch_data pulls them; all are public and free)
+cyberrisk/data/edgar/
+cyberrisk/data/edgar_cache/
+cyberrisk/data/gtrends/
+cyberrisk/data/prc/prc_export_jbukuts.csv
+cyberrisk/data/prc/prc_chronology_sample.csv
+cyberrisk/data/prc/prc_historical_2005_2019.csv
+cyberrisk/data/ff/*.csv
+cyberrisk/data/wrds/
+
+# run output: 8,390 filings with their Item 1A text, 460 MB
+cyberrisk/data/run/v*/
+cyberrisk/data/run/*.jsonl
+cyberrisk/data/run/*.pkl
+cyberrisk/data/run/*.log
+
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.coverage

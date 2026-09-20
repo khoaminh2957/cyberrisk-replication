@@ -1,0 +1,289 @@
+prc_id,company,attack_date,org_type,cik,method
+83,SRA International,2009-02-03,BSO,906192,exact
+170,Wells Fargo,2008-08-12,BSF,72971,manual
+198,1st Source Bank,2008-06-10,BSF,34782,manual
+251,Advance Auto Parts,2008-03-31,BSR,1158449,exact
+401,Western Union,2007-07-17,BSF,1365135,exact
+505,"Deb Shops, Inc.",2006-12-20,BSR,715779,exact
+730,Suffolk County National Bank,2010-01-12,BSF,754673,manual
+762,MoneyGram International,2007-01-12,BSF,1273931,exact
+803,Monster.com,2009-01-23,BSO,1020416,manual
+809,The Washington Trust Co.,2008-08-28,BSF,737468,manual
+812,LPL Financial (formerly Linsco Private Ledger),2008-07-08,BSF,1397911,manual
+820,Wyndham Hotels & Resorts,2009-02-16,BSO,1361658,manual
+845,Aetna,2009-05-28,MED,1122304,exact
+858,Monster.com,2007-08-23,BSO,1020416,manual
+871,Google Ads,2007-04-27,BSO,1288776,manual
+890,Dollar Tree,2006-08-01,BSR,935703,exact
+950,"Polo Ralph Lauren, HSBC",2005-04-15,BSR,1037038,manual
+1064,Charles Schwab,2010-04-09,BSF,316709,manual
+1145,Digital River Inc.,2010-06-04,BSF,1062530,exact
+1193,Hancock Fabrics,2009-11-23,BSR,812906,exact
+1223,Cisco Live 2010 ,2010-07-10,BSO,858877,manual
+1336,Principal Financial Group,2010-05-14,BSF,1126328,exact
+1496,Citibank,2008-06-19,BSF,831001,manual
+1497,OfficeMax,2006-02-09,BSR,12978,exact
+1651,Frost Bank,2006-05-19,BSF,39263,manual
+1702,"Copart, Inc.",2006-08-28,BSR,900075,exact
+1712,Monadnock Community Bank,2010-11-16,BSF,1283899,manual
+1739,"LandAmerica Credit Services, Inc., Diversified Capital",2006-09-01,BSF,877355,manual
+1741,North Fork Bank,2006-09-23,BSF,352510,manual
+1767,"Triple-C, Inc. (TCI), Triple-S Salud, Inc. (TSS)",2010-11-23,MED,1171662,manual
+1850,Public Storage Inc.,2007-01-29,BSO,1393311,exact
+1865,Brunswick Corp.,2007-02-16,BSR,14930,exact
+1881,First Advantage SBS,2007-02-28,BSO,1210677,manual
+1928,vFinance Investments Inc.,2007-06-05,BSF,890285,manual
+1933,Intergraph Corporation,2007-07-16,BSR,351145,exact
+1949,"Digital River Inc., SWReg Inc.",2010-12-22,BSR,1062530,manual
+1962,Penson Worldwide,2007-08-09,BSF,1123541,exact
+1974,Hartford Life Insurance Company,2007-09-12,BSF,45947,exact
+1980,Track Data Securities Corp.,2007-10-12,BSF,922811,manual
+1982,LPL Financial,2007-10-12,BSF,1397911,exact
+1984,"First Banks Inc, iWire Inc",2007-10-18,BSF,710507,manual
+2006,Sovereign Bank,2010-12-31,BSF,811830,manual
+2084,SAIC            ,2008-01-18,BSO,1336920,exact
+2213,TripAdvisor,2011-03-24,BSO,1526520,exact
+2222,Hartford Life Insurance Company,2011-04-06,BSF,45947,exact
+2225,"TJ stores (TJX), including TJMaxx, Marshalls, Winners, HomeSense, AJWright,  KMaxx, and possibly Bob's Stores in U.S. & Puerto Rico -- Winners and HomeGoods stores in Canada -- and possibly TKMaxx stores in UK and Ireland",2007-01-17,BSR,109198,manual
+2252,Infogroup,2011-04-21,BSO,879437,exact
+2272,Ceridian Corporation,2010-02-04,BSF,1124887,exact
+2277,TD Ameritrade Holding Corp. ,2007-09-14,BSF,1173431,exact
+2330,Best Buy,2011-05-06,BSR,764478,exact
+2338,Fox.com,2011-05-10,BSO,1308161,manual
+2391,Lockheed Martin,2011-05-27,BSO,936468,exact
+2591,AT&T,2011-11-21,BSO,732717,exact
+2631,"MyVetDirect.com, Butler Schein Animal Health (BSAH)",2011-12-20,BSO,1000228,manual
+2687,VeriSign Inc.,2012-02-02,BSO,1014473,exact
+2810,"X-Rite Incorporated, Pantone.com",2012-04-11,BSR,790818,manual
+2856,Comcast,2012-05-20,BSO,1166691,exact
+2872,"Rackspace, Incorporating Services, Ltd.",2012-05-02,BSO,1107694,manual
+2926,Direct TV,2012-05-26,BSR,1465112,manual
+3019,Dave & Buster's,2008-05-12,BSO,943823,manual
+3039,Yahoo! Voices,2012-07-12,BSO,1011006,manual
+3065,Citibank,2012-03-13,BSF,831001,manual
+3074,Nvidia,2012-07-13,BSR,1045810,exact
+3112,"DSW Shoe Warehouse, Retail Ventures",2005-03-08,BSR,874444,manual
+3123,"TransUnion LLC, Manufacturers Life Insurance Company (ManuLife)",2012-03-12,BSF,1513514,manual
+3127,"Intel, Inc.",2012-02-10,BSF,50863,exact
+3158,Twinspires.com (Churchill Downs Technology Initiatives Company),2012-09-04,BSF,20212,manual
+3165,Apple,2012-09-04,BSR,320193,exact
+3182,"Lincoln Financial Securities Corporation, Red Boat Advisor Resources",2012-09-16,BSF,59558,manual
+3228,Korn/Ferry International,2012-10-12,BSO,56679,exact
+3263,"Symantec, ImageShack",2012-11-04,BSO,849399,manual
+3274,Adobe,2012-11-14,BSO,796343,exact
+3350,"Carewise Health, Hewlett-Packard Enterprise Services",2012-12-28,MED,47217,manual
+3382,The New York Times,2013-01-30,BSO,71691,exact
+3426,"Bank of Hawaii, First Hawaiian Bank",2013-03-01,BSR,46195,manual
+3436,Microsoft,2013-02-22,BSR,789019,exact
+3437,Facebook,2013-02-15,BSO,1326801,exact
+3438,Twitter,2013-02-02,BSO,1418091,exact
+3439,Apple,2013-02-19,BSR,320193,exact
+3452,"Apple Inc., AT&T",2010-06-09,BSR,320193,manual
+3458,"Ford-Motor Websites (Connect With Fiesta, Unleashfiesta)",2012-05-05,BSR,37996,manual
+3506,American Express,2013-03-29,BSF,4962,exact
+3507,JPMorgan Chase,2013-03-28,BSF,19617,manual
+3586,"Information Handling Services, Inc. (IHS)",2013-02-27,BSO,1316360,manual
+3596,LinkedIn.com,2012-06-06,BSO,1271024,manual
+3599,"Adobe, Washington Administrative Office of the Courts",2013-05-13,BSO,796343,manual
+3604,"Fidelity National Information Services, Inc. (FIS)",2011-08-26,BSF,1136893,manual
+3621,Morningstar Document Research,2013-07-05,BSF,1289419,manual
+3635,Apple Inc.,2013-07-22,BSR,320193,exact
+3637,NASDAQ.com,2013-07-18,BSO,1120193,manual
+3647,"Wal-Mart, Sam's Club ",2010-06-07,BSR,104169,manual
+3652,Heartland Payment Systems,2009-01-20,BSF,1144354,exact
+3661,US Airways Group,2013-08-08,BSO,701345,override
+3677,Blizzard Entertainment,2012-08-09,BSO,718877,manual
+3688,"The New York Times, Melbourne IT",2013-08-27,BSO,71691,manual
+3689,Genesco Inc.,2010-12-10,BSF,18498,exact
+3693,Northrop Grunman,2013-08-09,BSO,1133421,manual
+3706,Citibank,2011-06-09,BSF,831001,manual
+3751,"Saint Louis University, Tenet Healthcare Corporation, SSM Health Care",2013-10-08,MED,70318,manual
+3838,"CME Group, CME ClearPort",2013-11-17,BSF,1156375,manual
+3861,Dun & Bradstreet,2013-10-28,BSO,1115222,exact
+3865,Crown Castle International Corp,2013-11-25,BSO,1051470,exact
+3875,"ADP, Facebook, Gmail, LinkedIn, Twitter, Yahoo, YouTube",2013-12-04,BSO,8670,manual
+3876,"Adobe, PR Newswire, National White Collar Crime Center",2013-10-04,BSR,796343,manual
+3877,"B&G Foods North America, Inc., Maple Grove Farms",2013-12-06,BSR,1278027,manual
+3879,"LexisNexis, Dun & Bradstreet, Kroll Background America",2013-09-26,BSO,1115222,manual
+3889,JPMorgan Chase,2013-12-05,BSF,19617,manual
+3899,Washington Post,2013-12-18,BSO,104889,exact
+3900,Affinity Gaming,2013-12-21,BSO,1499268,exact
+3988,Easton-Bell Sports Inc.,2014-01-17,BSR,1322739,exact
+3997,Medtronic,2014-02-08,MED,64670,exact
+3998,Boston Scientific,2014-02-08,MED,885725,exact
+4000,"WellPoint, Inc.",2010-08-06,MED,1156039,exact
+4016,Apple,2014-02-26,BSO,320193,exact
+4017,Sears,2014-02-28,BSR,1310067,exact
+4022,Las Vegas Sands Hotels and Casinos,2014-02-12,BSO,1300514,manual
+4023,Smucker's,2014-03-04,BSR,91419,manual
+4025,"Assisted Living Concepts, LLC",2014-03-04,MED,929994,exact
+4027,Alaska Communications,2014-02-20,BSR,1089511,manual
+4039,Sally Beauty Supply,2014-03-05,BSR,1368458,manual
+4054,American Express ,2014-03-25,BSF,4962,exact
+4069,AOL,2014-04-28,BSO,1468516,exact
+4087,Ebay,2014-05-21,BSO,1065088,exact
+4118,AutoNation Toyota of South Austin ,2014-05-26,BSO,350698,manual
+4166,Boeing ,2014-07-11,BSO,12927,exact
+4169,Lockheed Martin,2014-07-11,BSO,936468,exact
+4170,Aecom,2014-07-08,BSO,868857,exact
+4173,Dominion Resources Inc.,2014-07-21,BSO,715957,exact
+4179,Michaels Stores Inc.,2014-01-25,BSR,740670,exact
+4207,"MeetMe, Inc.",2014-08-18,BSO,1078099,exact
+4218,Community Health Systems,2014-08-18,MED,1108109,exact
+4233,Apple,2014-09-01,BSO,320193,exact
+4255,Sears Holding Company/K-Mart,2014-10-10,BSR,1310067,manual
+4264,Fidelity National Financial,2014-11-03,BSF,1331875,exact
+4291,Shutterfly/Tiny Prints/Treats/Wedding Divas,2014-11-26,BSO,1125920,manual
+4292,Bebe Retail,2014-12-05,BSR,1059272,manual
+4301,ABM Parking Services,2014-12-11,BSO,771497,manual
+4305,Microsoft xBox,2014-12-26,BSO,789019,manual
+4306,Staples Inc.,2014-10-20,BSR,791519,exact
+4307,J.P Morgan Chase,2014-08-28,BSF,19617,manual
+4308,NVIDIA Corporation,2015-01-06,BSO,1045810,exact
+4323,Anthem,2015-02-05,BSF,1156039,exact
+4325,"Toys ""R"" Us",2015-03-03,BSR,1005414,exact
+4327,Natural Grocers,2015-03-02,BSR,1547459,manual
+4330,United Airlines,2015-01-01,BSO,100517,override
+4343,Microsoft/Xbox One,2015-04-03,BSO,789019,manual
+4351,Hilton/Hilton Honors Program,2014-11-04,BSO,1585689,manual
+4354,Sally Beauty Supply,2015-05-04,BSR,1368458,manual
+4365,Starbucks ,2015-05-12,BSR,829224,exact
+4395,AeroGrow International,2015-06-03,BSO,1316644,exact
+4397,Neiman Marcus,2014-01-10,BSR,1358651,exact
+4404,United Airlines,2015-07-29,BSO,100517,override
+4406,Sabre Corporation,2015-08-07,BSO,1597033,exact
+4409,Ubiquiti Networks Inc.,2015-08-07,BSO,1511737,exact
+4417,Web.com,2015-08-19,BSO,1095291,exact
+4461,E-Trade,2015-10-09,BSF,1015780,manual
+4474,Scripps Network LLC. (Food.com),2015-10-16,BSO,1430602,manual
+4488,Comcast,2015-11-09,BSO,1166691,exact
+4497,Starwood Hotels,2015-11-20,BSO,316206,manual
+4503,Hilton Hotels,2015-09-25,BSO,1585689,manual
+4507,Target Corp.,2013-12-13,BSR,27419,exact
+4514,Wyndham Hotels & Resorts,2010-02-28,BSO,1361658,manual
+4534,Juniper Network,2015-12-21,BSO,1043604,manual
+4543,Time Warner Cable,2016-01-08,BSO,1377013,exact
+4565,Hyatt Hotels,2016-01-15,BSO,1468174,exact
+4579,Neiman Marcus,2016-02-01,BSO,1358651,exact
+4600,Seagate,2016-03-06,BSO,1137789,manual
+4604,The Home Depot,2014-09-02,BSR,354950,exact
+4608,Verizon Enterprise Solutions,2016-03-24,BSO,732712,manual
+4609,21st Century Oncology,2016-03-04,MED,1503518,exact
+4611,1-800-Flowers,2016-03-08,BSO,1084869,manual
+4615,Advanced Auto Parts,2016-03-16,BSR,1158449,manual
+4616,"PerkinElmer, Inc.",2016-03-16,BSO,31791,exact
+4621,Sprouts Farmers Market,2016-03-28,BSO,1575515,exact
+4638,Voya Financial Advisor's Inc. ,2016-04-21,BSF,1535929,manual
+4655,Wendy's ,2016-01-27,BSO,30697,exact
+4658,Noodles and Company,2016-05-16,BSO,1275158,exact
+4662,Equifax Inc. ,2016-05-06,BSO,33185,exact
+4676,Twitter,2016-06-13,BSO,1418091,exact
+4681,Amedisys,2015-03-01,MED,896262,exact
+4717,"Walmart Stores, Inc. ",2016-03-01,MED,104169,manual
+4722,Ecolab Health and Welfare Benefits Plan,2016-02-26,MED,31462,manual
+4845,"inVentiv Health, Inc. ",2016-07-21,BSO,1089473,exact
+4852,Disney Consumer Products and Interactive Media,2016-07-30,BSO,1001039,manual
+4866,Oracle's MICROS Point-of-Sale,2016-08-08,BSO,1341439,manual
+4897,Charles Schwab,2016-05-03,BSF,316709,manual
+4932,Yahoo,2016-09-22,BSO,1011006,exact
+4942,Vera Bradley,2016-10-12,BSO,1495320,exact
+4945,Jive Software/Producteev,2016-09-23,BSO,1462633,manual
+5032,The Madison Square Garden Company,2016-11-22,BSO,1636519,override
+5035,Google Android,2016-11-30,BSO,1652044,manual
+5046,Quest Diagnostics,2016-12-12,MED,1022079,exact
+5053,Yahoo,2016-12-14,BSO,1011006,exact
+5061,Western Union,2016-12-20,BSF,1365135,exact
+5068,Hewlett Packard Enterprise Services ,2016-11-23,BSO,1645590,manual
+5099,LinkedIn,2016-05-17,BSO,1271024,exact
+5105,eHealth Insurance,2017-01-27,BSF,1333493,manual
+5107,Sunrun,2017-02-02,BSO,1469367,exact
+5109,Toys R Us,2017-02-02,BSO,1005414,exact
+5112,Capital One,2017-02-06,BSF,927628,manual
+5135,Abbott Nutrition,2017-02-24,BSO,1800,manual
+5136,Spiral Toys,2017-02-27,BSO,1520108,exact
+5153,Verifone,2017-03-07,BSO,1312073,exact
+5202,Neiman Marcus Group,2017-04-14,BSO,1358651,exact
+5208,Northrop Grumman Systems Corporation,2017-04-19,BSO,1133421,manual
+5211,Chipotle Mexican Grill,2017-04-26,BSO,1058090,exact
+5215,Sabre Corporation,2017-05-02,BSO,1597033,exact
+5218,Gannett Co,2017-05-04,BSO,1635718,override
+5219,Google Docs,2017-05-04,BSO,1652044,manual
+5310,Intuit,2017-05-11,BSF,896878,exact
+5337,"WellPoint, Inc.",2010-07-30,MED,1156039,exact
+5848,Patterson Dental Supply/Patterson Companies,2013-03-12,MED,891024,manual
+6208,"PST Services Inc, a McKesson Co.",2014-08-08,MED,927653,manual
+6336,Anthem (Working file),2015-02-13,MED,1156039,manual
+6356,"Anthem, Inc. Affiliated Covered Entity",2015-03-13,MED,1156039,manual
+6362,Career Education Corporation,2015-03-19,MED,1046568,exact
+6368,AT&T Group Health Plan,2015-03-23,MED,732717,manual
+6386,SUPERVALU Group Health Plan,2015-04-03,MED,95521,manual
+6389,ADT LLC Group Health & Welfare Plan,2015-04-07,MED,1546640,manual
+6916,"WellCare Health Plans, Inc.",2017-01-27,MED,1279363,exact
+6974,Humana Inc [case # HU17001CC],2017-04-18,MED,49071,manual
+6996,Blucora (TaxAct),2016-01-11,BSF,1068875,manual
+6999,Sabre Corporation,2017-05-17,BSO,1597033,exact
+7013,Game Stop,2017-06-02,BSO,1326380,manual
+7015,The Buckle Inc.,2017-06-20,BSR,885245,exact
+7070,"Staples, Inc.",2014-12-19,MED,791519,exact
+7134,Booking.com,2014-09-18,MED,1075531,manual
+7143,"Home Depot, Inc.",2014-09-09,MED,354950,exact
+7154,SUPERVALU Inc.,2014-08-14,MED,95521,exact
+7157,Liberty Tax,2014-08-22,MED,1528930,exact
+7193,AECOM Technology Corporation,2014-07-10,MED,868857,exact
+7200,"Intuit, Inc.",2014-06-09,MED,896878,exact
+7205,Polyone Designed Structures and Solutions,2014-06-16,MED,1122976,manual
+7207,"Rowan Companies, Inc.",2014-06-02,MED,85408,exact
+7216,"Fidelity National Financial, Inc.",2014-06-12,MED,1331875,exact
+7220,"Papa John's USA, Inc.",2014-06-17,MED,901491,manual
+7235,CenturyLink,2014-05-22,MED,18926,exact
+7242,Affinity Gaming,2014-05-16,MED,1499268,exact
+7243,"AutoNation, Inc.",2014-05-14,MED,350698,exact
+7258,Federal Home Loan Mortgage Corporation (Freddie Mac),2014-04-25,MED,1026214,manual
+7263,"L Brands, Inc.",2014-04-21,MED,701985,exact
+7269,"Michaels Stores, Inc.",2014-04-17,MED,740670,exact
+7286,J.M. Smucker Company,2014-02-27,MED,91419,exact
+7287,"ProAssurance Mid-Continent Underwriters, Inc.",2014-02-27,MED,1127703,manual
+7302,"Alaska Communications Systems Holdings, Inc.",2014-02-24,MED,1089511,exact
+7303,"Assisted Living Concepts, LLC",2014-02-21,MED,929994,exact
+7313,Sabre Corporation,2017-05-04,BSO,1597033,exact
+7327,Rite Aid,2017-05-17,BSR,84129,exact
+7342,Virgin America,2017-07-26,BSO,1614436,exact
+7376,Performant Financial Corporation,2017-08-14,BSF,1550695,exact
+7388,Bed Bath & Beyond,2017-06-19,BSO,886158,exact
+7396,Aflac,2017-03-16,BSF,4977,exact
+7419,CoreLogic/Credco,2017-08-29,BSF,36047,manual
+7422,Equifax Corporation,2017-09-07,BSF,33185,exact
+7477,Abbott Nutrition,2017-02-23,MED,1800,manual
+7481,Sonic Drive-In,2017-09-26,BSO,868611,manual
+7482,Whole Foods,2017-09-29,BSR,865436,manual
+7485,MongoDB,2017-09-05,BSO,1441816,exact
+7518,Briggs & Stratton Corporation,2017-09-29,MED,14195,exact
+7539,Hyatt Hotels,2017-11-16,BSO,1468174,exact
+7540,T-Mobile,2017-10-12,BSO,1283699,manual
+7542,Rite Aid,2017-05-19,BSR,84129,exact
+7555,ABM Industries,2017-11-14,BSO,771497,exact
+7564,Kimberly-Clark,2017-11-02,BSO,55785,exact
+7665,Nevro,2018-02-07,MED,1444380,exact
+7686,The Coca-Cola Company,2018-01-22,BSR,21344,exact
+7694,"Pentair Aquatic Eco Systems, Inc.",2018-01-26,BSO,77360,manual
+7710,"Southern National Bancorp of Virginia, Inc. d/b/a/ Sonabank",2018-02-26,BSF,1325670,manual
+7720,Marriott International Inc.,2018-02-16,BSR,1048286,exact
+7731,OneMain Financial,2018-02-09,BSF,1584207,manual
+7747,Goldman Sachs & Co. LLC,2018-02-12,BSF,886982,manual
+7751,Intuit Inc.,2018-02-09,BSF,896878,exact
+7798,Under Armour,2018-03-30,BSR,1336917,exact
+7801,"Delta Air Lines, Inc.",2018-04-06,BSR,27904,exact
+7802,Sears,2018-04-06,BSR,1310067,exact
+7804,Best Buy,2018-04-06,BSR,764478,exact
+7815,"SunTrust Banks, Inc.",2018-04-20,BSF,750556,exact
+7838,"Inogen, Inc.",2018-04-17,MED,1294133,exact
+7866,"W. W. Grainger, Inc.",2018-04-20,BSO,277135,manual
+7923,Aflac,2018-05-29,MED,4977,exact
+7937,"HealthEquity, Inc.",2018-06-12,MED,1428336,exact
+7946,"InfuSystem, Inc.",2018-06-22,MED,1337013,exact
+8033,Metropolitan Life Insurance Company,2017-07-19,MED,937834,exact
+8107,"Guardant Health, Inc.",2018-09-14,MED,1576280,exact
+8116,"Facebook, Inc.",2018-09-28,BSO,1326801,exact
+8120,Cigna,2018-10-10,MED,701221,exact
+8160,Marriott International ,2018-11-30,BSR,1048286,exact
+8176,"HealthEquity, Inc.",2018-11-17,MED,1428336,exact

@@ -1,0 +1,117 @@
+{
+ "run": "v6 (2026-09-20)",
+ "n_filings": 8390,
+ "n_scored": 3092,
+ "words": {
+  "vocab_size_ours": 2092,
+  "vocab_size_paper": 3210,
+  "top20_overlap": 18,
+  "top20_ours": [
+   "information",
+   "system",
+   "security",
+   "business",
+   "result",
+   "breach",
+   "data",
+   "customer",
+   "operation",
+   "service",
+   "loss",
+   "include",
+   "failure",
+   "computer",
+   "financial",
+   "technology",
+   "damage",
+   "attack",
+   "access",
+   "disruption"
+  ],
+  "missing_from_ours": [
+   "reputation",
+   "unauthorized"
+  ]
+ },
+ "figure2_spearman": 0.9160839160839163,
+ "insurance": {
+  "paper": 0.0843,
+  "ours": 0.11416558861578266
+ },
+ "insurance_above_median": {
+  "paper": 0.8,
+  "ours": 0.9065155807365439
+ },
+ "table6_model1": {
+  "coef": 1.320311800664394,
+  "t": 7.949212412054202,
+  "n": 2975,
+  "cases": 195,
+  "pseudo_r2": 0.17200616102971356,
+  "converged": true
+ },
+ "table6_paper": {
+  "coef": 0.961,
+  "t": 7.1,
+  "n": 41140,
+  "pseudo_r2": 0.093
+ },
+ "table6_variants": {
+  "note": "chốt trước lần chạy đầu trên v4, chạy lại trên v6 (EVALUATION.md 9.8)",
+  "V0_calendar_year": {
+   "coef": 1.32,
+   "ci95": [
+    0.995,
+    1.646
+   ],
+   "cases": 195,
+   "n": 2975
+  },
+  "V1_12m_after_fiscal_year_end": {
+   "coef": 1.284,
+   "ci95": [
+    0.964,
+    1.603
+   ],
+   "cases": 194,
+   "n": 2976
+  },
+  "V2_12m_after_filing": {
+   "coef": 1.24,
+   "ci95": [
+    0.94,
+    1.54
+   ],
+   "cases": 200,
+   "n": 2981
+  },
+  "V3_ff48_fixed_effects": {
+   "coef": 1.164,
+   "ci95": [
+    0.822,
+    1.506
+   ],
+   "cases": 195,
+   "n": 2699
+  },
+  "V4_previous_attack_control": {
+   "coef": 1.238,
+   "ci95": [
+    0.924,
+    1.551
+   ],
+   "cases": 195,
+   "n": 2975
+  },
+  "V0_rescaled_to_paper_sd_0.22": 1.258,
+  "firm_bootstrap_V0": {
+   "draws": 400,
+   "median": 1.327,
+   "ci95": [
+    1.053,
+    1.744
+   ],
+   "n_le_paper_0.961": 1
+  }
+ }
+}
