@@ -44,8 +44,11 @@ def exclude_short_zero_firms(scores, min_years=3):
 
 
 def assign_terciles(s, col="cyber_risk"):
-    """P1 = zero score; P2/P3 split at the median of the positive scores."""
-    s = s.copy()
+    """P1 = zero score; P2/P3 split at the median of the positive scores.  The authors' own code
+    does the same (`replace port = 0 if score == 0`, then `xtile` in two groups on the rest --
+    EVALUATION.md 13.2).  A firm-year without a score leaves the sort: it is neither low nor high
+    (audit 12.3 #2, where it used to fall through into the bought leg)."""
+    s = s[s[col].notna()].copy()
     pos = s[s[col] > 0][col]
     med = pos.median() if len(pos) else np.inf
     s["portfolio"] = np.where(s[col] <= 0, 1, np.where(s[col] <= med, 2, 3))
@@ -64,8 +67,8 @@ def holding_returns(members, crsp_m, formation_date, n_months=3):
     for m in months:
         ret = r.loc[m]
         wm = (w * cum).where(ret.notna(), 0.0)
-        wm = wm / wm.sum() if wm.sum() > 0 else wm
-        out[m] = float((wm * ret.fillna(0.0)).sum())
+        # no member has a return this month: the portfolio is missing, not flat (audit 12.3 #3)
+        out[m] = float((wm / wm.sum() * ret.fillna(0.0)).sum()) if wm.sum() > 0 else float("nan")
         cum = cum * (1 + ret.fillna(0.0))
     return pd.Series(out)
 

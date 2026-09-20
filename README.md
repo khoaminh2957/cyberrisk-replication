@@ -20,6 +20,7 @@ Mở notebook bằng nút Colab ở trên để xem tóm tắt và chạy lại 
 | §2.3 mẫu huấn luyện từ dữ liệu PRC | Xong | 288 vụ tấn công nối với 215 công ty nộp 10-K, theo một quy tắc cố định ghi trong `link_prc.py` |
 | §2.4 phương trình (1)–(2), từ vựng, gốc từ | Xong | Tính lại độc lập bằng numpy trên 8 công ty-năm: trùng tới 1e-9 |
 | Phụ lục B: Readability (kích thước file nộp) | Xong 20/9 | Lấy từ kho submissions bulk của SEC; hai dòng Bảng 3 so được với bài |
+| Bốn định nghĩa biến ngôn ngữ theo code của tác giả | Xong 20/9 | `risk_section_length` trừ câu an ninh mạng, `precise_words` = âm tỷ lệ Uncertainty, mẫu số tỷ lệ từ sau khi loại, `cyber_insurance` chỉ cần nhắc tới; cách đọc theo câu chữ bài vẫn được báo song song |
 | Bảng 1, Bảng 2, Bảng 3 (phần văn bản), Hình 1, Hình 2 | Xong | Xem bảng số bên dưới |
 | Bảng 6 Model 1 | Xong, thiết kế khác | Case-control, vì không liệt kê được 41,140 công ty-năm của bài |
 | Bảng 4–5, 7–12, IA7–IA14 | Code xong, **chưa ra số** | Thiếu WRDS |
@@ -54,7 +55,7 @@ Tác giả công bố thước đo của họ trên Harvard Dataverse (DOI `10.7
 | Sai lệch tuyệt đối trung bình | 0.033; 80.6% nằm trong 0.05 |
 
 ```bash
-python3 -m cyberrisk.compare_authors cyberrisk/data/results/scores_v6.csv   # tự tải file của tác giả
+python3 -m cyberrisk.compare_authors cyberrisk/data/results/scores_v7.csv   # tự tải file của tác giả
 ```
 
 Bộ của tác giả có code SAS và Stata cho phần tài chính, nhưng **không có code xử lý văn bản** (SAS

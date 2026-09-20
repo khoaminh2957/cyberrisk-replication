@@ -181,6 +181,16 @@ def report(ok, vocab, counts, link):
         x = d[["cyber_risk", k]].dropna()
         t2[k] = {"paper": v, "ours": sps.pearsonr(x["cyber_risk"], x[k])[0] if len(x) > 2 else np.nan}
     out["table2"] = pd.DataFrame(t2).T
+    # the same correlations under the paper's own wording, which the authors' code contradicts
+    # (EVALUATION.md 13.2): raw word counts, Strong_Modal for "precise", partial-cover insurance
+    alt = {"negative_words": "negative_words_raw", "precise_words": "precise_words_strong_modal",
+           "litigious_words": "litigious_words_raw", "cyber_insurance": "cyber_insurance_partial"}
+    t2b = {}
+    for k, v in PAPER["table2"].items():
+        c = alt.get(k, k)
+        x = d[["cyber_risk", c]].dropna()
+        t2b[k] = {"paper": v, "ours": sps.pearsonr(x["cyber_risk"], x[c])[0] if len(x) > 2 else np.nan}
+    out["table2_paper_wording"] = pd.DataFrame(t2b).T
     if s["readability"].notna().any():                    # filled from the bulk submissions archive
         r, lr = s["readability"].dropna(), np.log(s["readability"].dropna())
         stat = lambda x: {"mean": x.mean(), "sd": x.std(), "p1": x.quantile(.01), "p25": x.quantile(.25),

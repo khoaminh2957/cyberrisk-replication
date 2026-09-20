@@ -43,3 +43,54 @@ def test_market_model_car_alignment():
     assert abs(out["car_-1_1"] + 0.04) < 1e-9 and abs(out["car_-1_3"] + 0.02) < 1e-9
     missing = market_model_car(d.drop(index=i + 1), mkt, "2020-12-14").iloc[0]
     assert np.isnan(missing["car_-1_1"])          # an incomplete event window is not a CAR of zero
+
+
+# --- the four silent bugs the 2026-09-20 audit found (EVALUATION.md 12.3) ---------------------
+def test_a_missing_score_leaves_the_sort():
+    """It used to fall through into portfolio 3 -- the leg the strategy buys."""
+    from cyberrisk.portfolios import assign_terciles
+    s = pd.DataFrame({"permno": [1, 2, 3, 4], "cyber_risk": [0.0, 0.2, 0.9, np.nan]})
+    out = assign_terciles(s)
+    assert out["permno"].tolist() == [1, 2, 3] and out["portfolio"].tolist() == [1, 2, 3]
+
+
+def test_a_holding_month_with_no_returns_is_missing_not_zero():
+    from cyberrisk.portfolios import holding_returns
+    months = pd.period_range("2010-01", periods=3, freq="M")
+    crsp = pd.DataFrame({"permno": [1] * 3, "month": months, "ret": [np.nan, 0.05, 0.05]})
+    r = holding_returns(pd.DataFrame({"permno": [1], "weight0": [1.0]}), crsp, pd.Timestamp("2009-12-31"))
+    assert np.isnan(r.iloc[0]) and abs(r.iloc[1] - 0.05) < 1e-12
+    absent = holding_returns(pd.DataFrame({"permno": [999], "weight0": [1.0]}), crsp, pd.Timestamp("2009-12-31"))
+    assert absent.isna().all()
+
+
+def test_table10_drops_missing_factor_days_instead_of_returning_nan():
+    from cyberrisk.factor import table10
+    idx = pd.bdate_range("2010-01-01", periods=200)
+    rng = np.random.default_rng(1)
+    f = pd.DataFrame({c: rng.normal(0, .01, 200) for c in ["Mkt-RF", "SMB", "HML", "Mom", "RMW", "CMA"]}, index=idx)
+    crf = pd.Series(rng.normal(0, .01, 200), index=idx); crf.iloc[7] = np.nan
+    dummy = pd.Series(0, index=idx); dummy.iloc[::20] = 1
+    t = table10(crf, dummy, f, lags=5)
+    assert np.isfinite(t.select_dtypes("number").values).all()
+    assert (t["n"] == 199).all()                       # the missing day is dropped and counted out
+
+
+def test_absorbed_fixed_effects_are_charged_their_degrees_of_freedom():
+    """ols_fe must match a least-squares-dummy-variable fit, as Stata's `areg, absorb()` does."""
+    import statsmodels.api as sm
+    from cyberrisk.stats import ols_fe
+    rng = np.random.default_rng(3)
+    F, T = 60, 8
+    firm = np.repeat(np.arange(F), T); year = np.tile(np.arange(T), F)
+    fe_f = rng.normal(0, 1, F)[firm]
+    x = rng.normal(size=F * T) + 0.3 * fe_f
+    d = pd.DataFrame({"firm": firm, "year": year, "x": x,
+                      "y": 0.7 * x + fe_f + rng.normal(0, .5, T)[year] + rng.normal(0, 1, F * T)})
+    a = ols_fe(d, "y", ["x"], fe=("firm", "year"), cluster="firm")
+    X = pd.concat([d[["x"]], pd.get_dummies(d["firm"], prefix="f", drop_first=True, dtype=float),
+                   pd.get_dummies(d["year"], prefix="t", drop_first=True, dtype=float)], axis=1)
+    b = sm.OLS(d["y"], sm.add_constant(X)).fit(cov_type="cluster", cov_kwds={"groups": d["firm"]})
+    assert abs(a.params["x"] - b.params["x"]) < 1e-9
+    assert abs(a.bse["x"] / b.bse["x"] - 1) < 1e-9
+    assert a.df_resid == b.df_resid

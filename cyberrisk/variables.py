@@ -74,12 +74,15 @@ def secrets_dummy(text_10k):
     return int(bool(pat.search(text_10k)))
 
 
-def risk_section_length(item_1a_sentences):
-    """Number of sentences in Item 1A (Appendix B) and its log.  The paper does not state the log
+def risk_section_length(item_1a_sentences, n_cyber_sentences=0):
+    """Number of sentences in Item 1A, EXCLUDING the cybersecurity risk sentences, and its log.
+    The authors' SAS code is explicit: `risk_length = numRiskFactorSentencesTotal - sentencescounter`
+    and `lnrisk_length = log(1 + risk_length)` (EVALUATION.md 13.2).  The paper does not state the log
     transform; Table 3 fixes it: the five percentiles of "Risk section length" (1, 138, 226, 346,
     841) map to the printed "Risk section length (ln)" row (0.69, 4.93, 5.42, 5.85, 6.74) under
     ln(1 + n) and NOT under ln(n) (ln 1 = 0.00, ln 841 = 6.73) -- audit 2026-09-19."""
     n = len(item_1a_sentences) if not isinstance(item_1a_sentences, str) else len(split_sentences(item_1a_sentences))
+    n = max(n - n_cyber_sentences, 0)
     return n, float(np.log1p(n))
 
 

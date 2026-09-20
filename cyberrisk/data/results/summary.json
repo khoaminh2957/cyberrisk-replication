@@ -1,5 +1,5 @@
 {
- "run": "v6 (2026-09-20)",
+ "run": "v7 (2026-09-20)",
  "n_filings": 8390,
  "n_scored": 3092,
  "words": {
@@ -154,8 +154,16 @@
   }
  },
  "tests": {
-  "total": 76,
-  "fresh_clone": "64 passed, 10 skipped",
-  "after_notebook_downloads": "69 passed, 5 skipped"
+  "total": 80,
+  "fresh_clone": "see README",
+  "note": "four finance-half fixes pinned in test_weighting_and_car.py"
+ },
+ "authors_comparison": {
+  "matched_firm_years": 1716,
+  "pearson": 0.9529,
+  "spearman": 0.9418,
+  "mean_ours": 0.2672,
+  "mean_theirs": 0.2675,
+  "source": "doi:10.7910/DVN/LCVVG5"
  }
 }

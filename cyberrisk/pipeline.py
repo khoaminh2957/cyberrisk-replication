@@ -36,10 +36,13 @@ def _done(path):
 
 def _record(cik, fyear, filing_date, accession, item1a_sents, by_ref, extra=None):
     caps = extract(item1a_sents) if item1a_sents else []
-    n_sents, n_sents_ln = risk_section_length(item1a_sents)
+    # n_item1a_sentences is the whole section; risk_section_length nets out the cyber sentences,
+    # as the authors' SAS does (EVALUATION.md 13.2)
+    n_net, n_net_ln = risk_section_length(item1a_sents, len(caps))
     return {"cik": str(int(cik)), "fyear": fyear, "filing_date": filing_date, "accession": accession,
             "has_item_1a": bool(item1a_sents), "by_reference": by_ref,
-            "n_item1a_sentences": n_sents, "risk_section_length_ln": n_sents_ln,
+            "n_item1a_sentences": len(item1a_sents), "risk_section_length": n_net,
+            "risk_section_length_ln": n_net_ln,
             "n_titles": sum(s.is_title for s in item1a_sents),
             "disclosure": disclosure_text(item1a_sents, captured=caps),
             "captured": [{"text": c.text, "direct": c.direct, "indirect": c.indirect} for c in caps],
@@ -103,7 +106,8 @@ def reextract(jsonl_in, jsonl_out):
                     r["has_item_1a"], r["item1a"] = False, []
                     sents = []
                 caps = extract(sents)
-                r["n_item1a_sentences"], r["risk_section_length_ln"] = risk_section_length(sents)
+                r["n_item1a_sentences"] = len(sents)
+                r["risk_section_length"], r["risk_section_length_ln"] = risk_section_length(sents, len(caps))
                 r["captured"] = [{"text": c.text, "direct": c.direct, "indirect": c.indirect} for c in caps]
                 r["disclosure"] = disclosure_text(sents, captured=caps)
             fo.write(json.dumps(r) + "\n")

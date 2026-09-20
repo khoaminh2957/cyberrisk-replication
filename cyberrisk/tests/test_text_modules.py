@@ -130,7 +130,10 @@ def test_disclosure_features():
     f = disclosure_features(caps, 50, lists)
     assert f["crd_sentences"] == 1 and f["crd_sentences_ratio"] == 0.02
     assert f["negative_words"] > 0 and f["litigious_words"] > 0
-    assert f["mentions_insurance"] == 1 and f["cyber_insurance"] == 1
+    assert f["mentions_insurance"] == 1 and f["cyber_insurance"] == 1 and f["cyber_insurance_partial"] == 1
+    # the ratios divide by the post-exclusion word count (the authors' totalWordsadj)
+    assert f["n_words_adj"] < f["n_words"] and f["negative_words"] > f["negative_words_raw"]
+    assert f["precise_words"] <= 0                       # minus the LM uncertainty ratio
 
 
 # --- §2.3 PRC filters ----------------------------------------------------------------------
@@ -185,7 +188,7 @@ def test_word_ratios_undefined_without_disclosure():
     with no disclosure they are undefined (NaN), not zero -- zeros for the ~40% of firm-years
     without a disclosure manufacture a correlation (0.84 vs the paper's 0.03 for negative words)."""
     import math
-    f = disclosure_features([], 120, {"Negative": {"loss"}, "Strong_Modal": {"must"}, "Litigious": {"claim"}})
+    f = disclosure_features([], 120, {"Negative": {"loss"}, "Strong_Modal": {"must"}, "Litigious": {"claim"}, "Uncertainty": {"may"}})
     assert f["crd_sentences"] == 0 and math.isnan(f["negative_words"]) and math.isnan(f["litigious_words"])
 
 
@@ -204,12 +207,16 @@ def test_stub_item_1a_is_dropped_on_every_path():
 
 def test_cyber_insurance_needs_partial_cover_in_the_insurance_sentence():
     """Appendix B: firms 'explicitly state that such insurance only partially covers them'.  A
-    partial-cover phrase elsewhere in the disclosure, or 'not limited to', does not count."""
+    partial-cover phrase elsewhere in the disclosure, or 'not limited to', does not count.  This is
+    `cyber_insurance_partial`; `cyber_insurance` itself follows the authors' code, which only looks
+    for the word "insurance" (EVALUATION.md 13.2)."""
     from cyberrisk.extract import Captured
-    lists = {"Negative": set(), "Strong_Modal": set(), "Litigious": set()}
+    lists = {"Negative": set(), "Strong_Modal": set(), "Litigious": set(), "Uncertainty": set()}
     f = lambda *ts: disclosure_features([Captured(i, t, False, True, []) for i, t in enumerate(ts)], 10, lists)
-    assert f("We maintain insurance coverage.", "Attacks including but not limited to phishing.")["cyber_insurance"] == 0
-    assert f("We maintain cyber insurance.", "Our security measures may be insufficient.")["cyber_insurance"] == 0
-    assert f("Such insurance coverage may be insufficient to cover all losses.")["cyber_insurance"] == 1        # Apple FY2017
-    assert f("The potential costs could exceed the insurance coverage we maintain.")["cyber_insurance"] == 1   # Verizon FY2017
+    assert f("We maintain insurance coverage.", "Attacks including but not limited to phishing.")["cyber_insurance_partial"] == 0
+    assert f("We maintain cyber insurance.", "Our security measures may be insufficient.")["cyber_insurance_partial"] == 0
+    assert f("Such insurance coverage may be insufficient to cover all losses.")["cyber_insurance_partial"] == 1   # Apple FY2017
+    assert f("The potential costs could exceed the insurance coverage we maintain.")["cyber_insurance_partial"] == 1  # Verizon FY2017
     assert f("We maintain cyber insurance.")["mentions_insurance"] == 1
+    assert f("We maintain cyber insurance.")["cyber_insurance"] == 1      # the authors' own rule
+    assert f("Hackers attacked our systems.")["cyber_insurance"] == 0

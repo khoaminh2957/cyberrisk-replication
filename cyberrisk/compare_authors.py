@@ -6,9 +6,9 @@ firm-years with `cyber_risk_score_cosine`, the measure itself.  Their key is Com
 ours is the SEC CIK, so the bridge here is the company name, normalised the same way on both sides
 and kept only where a name identifies exactly one gvkey and one CIK.
 
-    python3 -m cyberrisk.compare_authors cyberrisk/data/run/v6_scored.pkl
+    python3 -m cyberrisk.compare_authors cyberrisk/data/run/v7_scored.pkl
 
-Result on run v6 (2026-09-20): 1,716 matched firm-years, Pearson r = 0.953, Spearman 0.942,
+Result on run v7 (2026-09-20): 1,716 matched firm-years, Pearson r = 0.953, Spearman 0.942,
 means 0.2672 (ours) vs 0.2675 (theirs).  EVALUATION.md section 13.
 """
 import argparse
@@ -60,7 +60,7 @@ def compare(ours, theirs):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("scored", help="v6_scored.pkl, or the published scores_v6.csv")
+    ap.add_argument("scored", help="v7_scored.pkl, or the published scores_v7.csv")
     ap.add_argument("--dta", default="cyberrisk/data/authors/flmw_rfs.dta")
     a = ap.parse_args(argv)
     ours = (pd.read_pickle(a.scored) if a.scored.endswith(".pkl")

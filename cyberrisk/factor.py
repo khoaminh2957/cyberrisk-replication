@@ -65,8 +65,11 @@ def table10(crf, dummy, factors_d, lags=NW_LAGS, shift_days=0):
     df["High_Google_SVI_dummy"] = d.shift(shift_days).fillna(0).astype(int) if shift_days else d
     rows = {}
     for name, cols in (("NONE", []), ("CAPM", CAPM), ("FFC", FFC), ("FF-5", FF5)):
-        x = df[["High_Google_SVI_dummy"] + cols].dropna()
-        m = sm.OLS(df.loc[x.index, "CRF"], sm.add_constant(x)).fit(cov_type="HAC", cov_kwds={"maxlags": lags})
+        # the dependent variable has to be dropped too, or statsmodels returns all-NaN estimates
+        # while n still reports the full sample (audit 12.3 #1)
+        x = df[["CRF", "High_Google_SVI_dummy"] + cols].dropna()
+        m = sm.OLS(x["CRF"], sm.add_constant(x[["High_Google_SVI_dummy"] + cols])).fit(
+            cov_type="HAC", cov_kwds={"maxlags": lags})
         rows[name] = {"constant": m.params["const"], "t_constant": m.tvalues["const"],
                       "high_svi": m.params["High_Google_SVI_dummy"], "t_high_svi": m.tvalues["High_Google_SVI_dummy"],
                       "n": int(m.nobs)}

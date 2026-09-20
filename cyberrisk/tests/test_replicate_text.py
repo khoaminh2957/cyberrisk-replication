@@ -40,11 +40,11 @@ def test_link_prc_rebuilds_the_link_file(tmp_path):
 
 
 def test_headline_numbers_are_pinned():
-    """The public-data run v6 (run v5's filings -- rule R* link, frequency before roots, insurance in the
+    """The public-data run v7 (run v5's filings -- rule R* link, frequency before roots, insurance in the
     same sentence -- scored on the whole random draw; EVALUATION.md section 9); fails if a code
     change moves them."""
     from cyberrisk import replicate_text as R
-    p, csv = os.path.join(DATA, "run", "v6_scored.pkl"), os.path.join(DATA, "results", "scores_v6.csv")
+    p, csv = os.path.join(DATA, "run", "v7_scored.pkl"), os.path.join(DATA, "results", "scores_v7.csv")
     if os.path.exists(p):
         ok = pd.read_pickle(p)
     elif os.path.exists(csv):                       # the published repo ships the scores, not the texts

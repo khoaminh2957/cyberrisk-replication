@@ -29,7 +29,7 @@ Ngày 2026-09-09. Mục tiêu đặt ra: dựng lại toàn bộ bài, kiểm tr
 
   Không khác biệt nào có cơ chế được xác lập; các ứng viên ở mục 9. Bốn đầu vào của bài không có ở đây: mẫu Compustat, cờ "major" của Factiva, bảng nối tên làm tay của tác giả, và toàn bộ corpus. Vì corpus nhỏ hơn, từ vựng có 2,092 gốc từ so với 3,210 của bài.
 * **Nửa tài chính (Bảng 4–5, 7–12, IA) chưa ra số**: cần CRSP/Compustat/13F/BoardEx/FactSet/Bloomberg. Không có tài khoản WRDS. Code đã viết theo bài, kiểm bằng dữ liệu tổng hợp và bằng ví dụ tính tay; phần này bị chặn bởi dữ liệu, không phải bởi code. Còn 15 lỗi code đã xác nhận ở nửa này chưa sửa: 6 ở mục 11.3 và 9 ở mục 12.3.
-* **Test**: 76 test, 75 pass; 1 test mạng chỉ chạy khi bật `--run-network`. Kết quả giống nhau qua 5 hash seed. Độ phủ mã nguồn 79% (đo 2026-09-20, không chạy test mạng). Hai file 0% là `fetch_data.py` (tải dữ liệu) và `wrds_extract.py` (chưa chạy vì không có WRDS). Các con số chính được ghim bằng test hồi quy.
+* **Test**: 80 test, 79 pass; 1 test mạng chỉ chạy khi bật `--run-network`. Kết quả giống nhau qua 5 hash seed. Độ phủ mã nguồn 79% (đo 2026-09-20, không chạy test mạng). Hai file 0% là `fetch_data.py` (tải dữ liệu) và `wrds_extract.py` (chưa chạy vì không có WRDS). Các con số chính được ghim bằng test hồi quy.
 
 ## 2. Bảng phủ
 
@@ -141,7 +141,7 @@ làm, đọc lại toàn văn bài và so từng mục. Kết quả:
 (cửa sổ [−1,+1] và [−1,+3] cho ra đúng con số cấy sẵn; cửa sổ sự kiện thiếu ngày trả NaN chứ không
 trả 0). Hai kiểm tra này nay là test cố định.
 
-**E. Độ phủ test: 79%** mã nguồn (không tính file test), đo bằng `coverage` ngày 2026-09-20 với 76 test, không chạy test mạng. Các con số ghi trước đây (91.5%, 88%, 77%) đo trên bộ code và bộ test của thời điểm khác; không dùng nữa. Phần chưa phủ chủ yếu: tải dữ liệu (`fetch_data.py` 0%), trích xuất WRDS (`wrds_extract.py` 0%, chưa chạy vì không có tài khoản), các nhánh gọi mạng của `pipeline.py` và `gtrends.py`. Test mạng chạy bằng `--run-network`; lần chạy gần nhất là 2026-09-19, pass.
+**E. Độ phủ test: 79%** mã nguồn (không tính file test), đo bằng `coverage` ngày 2026-09-20 với 80 test, không chạy test mạng. Các con số ghi trước đây (91.5%, 88%, 77%) đo trên bộ code và bộ test của thời điểm khác; không dùng nữa. Phần chưa phủ chủ yếu: tải dữ liệu (`fetch_data.py` 0%), trích xuất WRDS (`wrds_extract.py` 0%, chưa chạy vì không có tài khoản), các nhánh gọi mạng của `pipeline.py` và `gtrends.py`. Test mạng chạy bằng `--run-network`; lần chạy gần nhất là 2026-09-19, pass.
 
 ## 5. Những điểm bài KHÔNG nêu rõ, code phải tự chọn (mỗi điểm ghi trong docstring)
 
@@ -227,7 +227,7 @@ Dòng #27, #28, #30 mô tả đường raw EDGAR, là đường dùng cho mọi 
 
 ## 9. Kết quả bằng số trên dữ liệu công khai (lần chạy v6, 2026-09-20)
 
-**Các lần chạy.** Mọi con số trong mục này là của v6. Lịch sử: v3 (7,741 hồ sơ, 2026-09-19) → v4 (sửa `is_stub`, §11.1) → v5 (quy tắc nối R*, ngưỡng tần suất trước gốc từ, bảo hiểm trong cùng câu; thêm 649 hồ sơ) → v6 (dữ liệu v5; mẫu ngẫu nhiên là toàn bộ lần rút, mục 10 dòng 11). Số của các lần chạy cũ chỉ ghi khi cần so sánh.
+**Các lần chạy.** Mọi con số trong mục này là của v7 (v6 cộng bốn định nghĩa lấy theo code của tác giả, mục 13.2; thước đo và Bảng 6 không đổi). Lịch sử: v3 (7,741 hồ sơ, 2026-09-19) → v4 (sửa `is_stub`, §11.1) → v5 (quy tắc nối R*, ngưỡng tần suất trước gốc từ, bảo hiểm trong cùng câu; thêm 649 hồ sơ) → v6 (dữ liệu v5; mẫu ngẫu nhiên là toàn bộ lần rút, mục 10 dòng 11) → v7 (định nghĩa biến ngôn ngữ và độ dài mục rủi ro theo code tác giả). Số của các lần chạy cũ chỉ ghi khi cần so sánh.
 
 **Thiết kế, chốt trước khi so với bài** (`replicate_text.py`):
 * 10-K tải từ EDGAR: toàn bộ 10-K 2005–2019 của các công ty trong mẫu huấn luyện và 10 công ty ở Bảng 1, cộng một lần rút ngẫu nhiên 450 hồ sơ mỗi năm nộp 2007–2019. Lần rút có 5,850 dòng index, tức 5,823 hồ sơ khác nhau: một 10-K nộp chung có một dòng index cho mỗi CIK. Tổng 8,390 hồ sơ; mọi hồ sơ lỗi mạng đã tải lại được.
@@ -318,26 +318,30 @@ Bảng 1 không phụ thuộc mẫu ngẫu nhiên, nên v5 và v6 giống nhau.
 
 ### 9.5 Bảng 2 — tương quan ngôn ngữ
 
+Từ lần chạy v7, bốn biến ngôn ngữ theo **code của tác giả** (mục 13.2), không theo câu chữ Phụ lục B: mẫu số tỷ lệ từ là số từ sau khi loại, "precise" là **âm tỷ lệ từ Uncertainty**, `insurance` chỉ cần nhắc tới bảo hiểm. Cách đọc theo câu chữ của bài vẫn được tính và báo song song.
+
 Cột "ours" tính trên công ty có văn bản an ninh mạng (N = 1,803):
 
-|  | paper | ours |
-|---|---|---|
-| crd_sentences | 0.569 | 0.596 |
-| crd_sentences_ratio | 0.443 | 0.415 |
-| negative_words | 0.033 | -0.066 |
-| precise_words | 0.084 | 0.001 |
-| litigious_words | 0.127 | 0.080 |
-| cyber_insurance | 0.169 | 0.117 |
+|  | paper | theo code tác giả | theo câu chữ bài |
+|---|---|---|---|
+| crd_sentences | 0.569 | 0.596 | 0.596 |
+| crd_sentences_ratio | 0.443 | 0.415 | 0.415 |
+| negative_words | 0.033 | -0.064 | -0.066 |
+| precise_words | 0.084 | -0.018 | -0.013 |
+| litigious_words | 0.127 | 0.070 | 0.080 |
+| cyber_insurance | 0.169 | **0.149** | 0.117 |
 
-Ba định nghĩa được chốt trước, so trên toàn bộ ma trận 21 ô của bài:
+**Quan sát quan trọng, đo trên toàn bộ ma trận 21 ô:** theo code tác giả thì sai lệch trung bình là **0.073** (lớn nhất 0.277), còn theo câu chữ bài là **0.059** (lớn nhất 0.145). Nghĩa là đổi theo code của họ làm ô bảo hiểm gần bài hơn (0.117 → 0.149 so với 0.169) nhưng làm cả ma trận xa hơn. Thủ phạm là dòng "precise": ô *precise × negative* của bài in −0.145; dùng âm tỷ lệ Uncertainty cho **+0.132**, dùng Strong_Modal cho −0.065. Tức là **dòng `precise_w = - sent_uncert2_w` trong code của tác giả không tái lập được chính ô Bảng 2 của họ**. **MECHANISM: UNKNOWN**; ứng viên: file .do công bố là bản dọn lại sau, hoặc bảng in dùng định nghĩa khác. Chỉ 6 trên 21 ô là gần bài hơn khi theo code của họ.
+
+Ba định nghĩa mẫu được chốt trước, so trên toàn bộ ma trận (tính theo định nghĩa biến hiện hành):
 
 | Định nghĩa | Sai lệch trung bình | Sai lệch lớn nhất |
 |---|---|---|
-| (i) tỷ lệ từ = 0 khi không có văn bản, mọi công ty | 0.302 | 0.804 |
-| (ii) tỷ lệ từ = NaN khi không có văn bản, từng cặp | 0.064 | 0.261 |
-| (iii) chỉ công ty có văn bản | **0.057** | 0.145 |
+| (i) tỷ lệ từ = 0 khi không có văn bản, mọi công ty | 0.362 | 0.805 |
+| (ii) tỷ lệ từ = NaN khi không có văn bản, từng cặp | 0.093 | 0.277 |
+| (iii) chỉ công ty có văn bản | **0.073** | 0.277 |
 
-Chọn (iii) vì khớp nhất trong ba là một lựa chọn POST-HOC, nên cả ba được báo ở đây. Ô khớp sát nhất: tiêu cực × chính xác −0.140 so với −0.145. Luật bảo hiểm mới (cụm "một phần" trong cùng câu với "insurance", từ v5) được chọn theo định nghĩa của bài, không theo con số. Sau khi đổi luật, các ô có bảo hiểm xa bài hơn: điểm × bảo hiểm 0.158 (v4) → 0.117 (bài 0.169); số câu × bảo hiểm 0.359 → 0.319 (bài 0.369); tiêu cực × bảo hiểm −0.106 → −0.075 (bài −0.115). **MECHANISM: UNKNOWN.** Nhắc bảo hiểm: 11.4% số công ty-năm, bài 8.43%. Trong số đó 90.7% có điểm trên trung vị, bài 80%.
+Nhắc bảo hiểm: 11.4% số công ty-năm, bài 8.43%. Trong số đó 90.7% có điểm trên trung vị, bài 80%.
 
 ### 9.6 Từ vựng (§2.4)
 
@@ -573,7 +577,7 @@ Tôi tự chạy lại từng mục dưới đây trên dữ liệu tổng hợp
 | 8 | Truy vấn 13F lấy theo `cusip` còn `institutional_ownership` cần `permno`; không có bước nối cusip → permno | đọc `wrds_extract.py` và `variables.py`; `crsp_names` được kéo về nhưng không ai dùng |
 | 9 | Winsorize 1%/99% theo năm chỉ chạy trong Bảng 3; bài nói winsorize "the continuous variables **in the sample**" | grep toàn gói: chỉ một chỗ gọi `winsorize_by_year` |
 
-Chín mục này **chưa sửa**: nhóm nửa tài chính chưa được chọn sửa. Sửa chúng không đổi con số nào hiện có, vì nửa đó chưa chạy trên dữ liệu thật.
+**Trạng thái 2026-09-20:** bốn mục đầu (#1–#4) **đã sửa**, mỗi mục có một test ghim đối chiếu với cài đặt thứ hai (`test_weighting_and_car.py`). Năm mục còn lại chưa sửa. Sửa chúng không đổi con số nào hiện có, vì nửa đó chưa chạy trên dữ liệu thật.
 
 ### 12.4 Lỗi của chính vòng kiểm tra này
 
@@ -638,4 +642,8 @@ Kiểm chứng phụ: phân phối trong `flmw_rfs.dta` tái lập đúng Bảng
 | Bảng 9 | `asreg ..., fmb newey(4)` — Newey-West **4 lag** | **Lệch**: bản này dùng 12 lag cho cả Fama-MacBeth |
 | Bảng 7–8 | `newey ..., lag(12)` | Khớp |
 
-Mười mục "lệch" ở trên **chưa sửa**: sửa bốn mục đầu sẽ đổi số của Bảng 2 và Bảng 3 ở nửa văn bản, nên cần quyết định trước — theo **câu chữ của bài** hay theo **code của tác giả**, vì hai thứ đó khác nhau ở biến `insurance` và `Precise words`.
+**Quyết định 2026-09-20:** theo **code của tác giả**, đồng thời giữ và báo song song cách đọc theo câu chữ bài. Đã áp dụng ở lần chạy v7 cho bốn biến: `risk_section_length` trừ số câu an ninh mạng, `precise_words` = âm tỷ lệ Uncertainty, mẫu số tỷ lệ từ là số từ sau khi loại, `cyber_insurance` chỉ cần nhắc tới bảo hiểm. Cách đọc cũ giữ trong các cột `negative_words_raw`, `precise_words_strong_modal`, `litigious_words_raw`, `cyber_insurance_partial`.
+
+Kết quả đo được sau khi đổi (mục 9.5): ô bảo hiểm gần bài hơn (0.117 → 0.149 so với 0.169), nhưng **toàn bộ ma trận 21 ô lại xa hơn** (0.059 → 0.073), vì dòng `precise_w = - sent_uncert2_w` của họ không tái lập được chính ô *precise × negative* mà bài in. Thước đo rủi ro, Bảng 3 và Bảng 6 không đổi.
+
+Bốn lỗi nửa tài chính ở mục 12.3 (#1–#4) cũng đã sửa trong cùng đợt; sáu mục còn lại ở 13.2 (winsorize, Fama-MacBeth 4 lag, Panel B, hiệu ứng cố định Bảng 5, merge CCM, 13F cusip) chưa sửa.

@@ -16,7 +16,7 @@ import re
 
 import pandas as pd
 
-from .roots import tokens
+from .roots import is_excluded, tokens
 
 PRECISE_LIST = "Strong_Modal"
 # statements that the insurance covers the firm only partially.  Bare "limited" is not one of them
@@ -38,12 +38,20 @@ def lm_wordlists(master_dictionary_csv):
 
 
 def disclosure_features(captured, n_item1a_sentences, lists):
-    """captured: list of Captured sentences; lists: lm_wordlists().  One row of Table 2 inputs."""
+    """captured: list of Captured sentences; lists: lm_wordlists().  One row of Table 2 inputs.
+
+    Two definitions follow the authors' own SAS code rather than Appendix B, because the two
+    disagree (EVALUATION.md 13.2): the word ratios divide by the word count AFTER the exclusions
+    of section 2.4 (`totalWordsadj`), and "precise words" is minus the Loughran-McDonald
+    Uncertainty ratio (`precise_w = - sent_uncert2_w`), not a Strong_Modal count.  The readings
+    taken from the paper's text are kept as `*_raw` and `precise_words_strong_modal`."""
     text = " ".join(c.text for c in captured)
     words = tokens(text)
-    n = len(words)
+    kept = [w for w in words if not is_excluded(w)]
+    n, n_adj = len(words), len(kept)
     # a ratio "to total words in cybersecurity risk disclosures" is undefined without a disclosure
-    ratio = lambda name: sum(1 for w in words if w in lists[name]) / n if n else float("nan")
+    ratio = lambda name: sum(1 for w in kept if w in lists[name]) / n_adj if n_adj else float("nan")
+    ratio_raw = lambda name: sum(1 for w in words if w in lists[name]) / n if n else float("nan")
     ins_sentences = [c.text for c in captured if _INSURANCE.search(c.text)]
     mentions_ins = bool(ins_sentences)
     # "explicitly state that such insurance only partially covers them" (Appendix B): the
@@ -53,9 +61,14 @@ def disclosure_features(captured, n_item1a_sentences, lists):
         "crd_sentences": len(captured),
         "crd_sentences_ratio": len(captured) / n_item1a_sentences if n_item1a_sentences else 0.0,
         "negative_words": ratio("Negative"),
-        "precise_words": ratio(PRECISE_LIST),
+        "precise_words": -ratio("Uncertainty"),
         "litigious_words": ratio("Litigious"),
+        "negative_words_raw": ratio_raw("Negative"),
+        "precise_words_strong_modal": ratio(PRECISE_LIST),
+        "litigious_words_raw": ratio_raw("Litigious"),
         "mentions_insurance": int(mentions_ins),
-        "cyber_insurance": int(partial),
+        "cyber_insurance": int(mentions_ins),
+        "cyber_insurance_partial": int(partial),
         "n_words": len(words),
+        "n_words_adj": n_adj,
     }
