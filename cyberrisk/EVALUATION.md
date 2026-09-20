@@ -27,7 +27,7 @@ Ngày 2026-09-09. Mục tiêu đặt ra: dựng lại toàn bộ bài, kiểm tr
   * số vụ tấn công là 244 theo định nghĩa "+ex-ante disclosure" và 218 nếu thêm "+listed", so với 175.
 
   Không khác biệt nào có cơ chế được xác lập; các ứng viên ở mục 9. Bốn đầu vào của bài không có ở đây: mẫu Compustat, cờ "major" của Factiva, bảng nối tên làm tay của tác giả, và toàn bộ corpus. Vì corpus nhỏ hơn, từ vựng có 2,092 gốc từ so với 3,210 của bài.
-* **Nửa tài chính (Bảng 4–5, 7–12, IA) chưa ra số**: cần CRSP/Compustat/13F/BoardEx/FactSet/Bloomberg. Không có tài khoản WRDS. Code đã viết theo bài, kiểm bằng dữ liệu tổng hợp và bằng ví dụ tính tay; phần này bị chặn bởi dữ liệu, không phải bởi code. Còn 6 lỗi code đã xác nhận ở nửa này chưa sửa (§11.3).
+* **Nửa tài chính (Bảng 4–5, 7–12, IA) chưa ra số**: cần CRSP/Compustat/13F/BoardEx/FactSet/Bloomberg. Không có tài khoản WRDS. Code đã viết theo bài, kiểm bằng dữ liệu tổng hợp và bằng ví dụ tính tay; phần này bị chặn bởi dữ liệu, không phải bởi code. Còn 15 lỗi code đã xác nhận ở nửa này chưa sửa: 6 ở mục 11.3 và 9 ở mục 12.3.
 * **Test**: 76 test, 75 pass; 1 test mạng chỉ chạy khi bật `--run-network`. Kết quả giống nhau qua 5 hash seed. Độ phủ mã nguồn 79% (đo 2026-09-20, không chạy test mạng). Hai file 0% là `fetch_data.py` (tải dữ liệu) và `wrds_extract.py` (chưa chạy vì không có WRDS). Các con số chính được ghim bằng test hồi quy.
 
 ## 2. Bảng phủ
@@ -535,7 +535,7 @@ Lỗi của chính vòng audit, tự bắt được: tôi báo "73 hồ sơ Item
 | 4 | §1: "12 bảng, 2 hình" | Bài có 3 hình; Hình 3 là dòng thời gian vụ SolarWinds |
 | 5 | README repo công khai: leverage là biến Compustat của Bảng 3–6 | Leverage chỉ có trong Phụ lục B, không xuất hiện ở Bảng 3, 4, 5, 6 hay 9 |
 | 6 | §3 vòng 2: "Newey-West, FE hai chiều, logit — mỗi thứ có một test cụ thể" | Newey-West và logit **nay mới có** test đối chiếu cài đặt thứ hai; FE hai chiều vẫn chỉ chạy gián tiếp, và chính chỗ đó có lỗi (12.3 mục 4) |
-| 7 | README + notebook: "bản clone sạch: 68 pass, 6 skip" | Đo trên bản clone thật từ GitHub: **64 pass, 10 skip**. Số cũ đo trên thư mục đã bị các ô notebook tải thêm file vào — lại đúng lớp lỗi "đọc trạng thái tạm thời như sự thật" |
+| 7 | README + notebook: "bản clone sạch: 68 pass, 6 skip" | Đo trên bản clone thật từ GitHub: **10 test bị bỏ qua, không phải 6** (hiện là 66 pass / 10 skip trên 76 test). Số cũ đo trên thư mục đã bị các ô notebook tải thêm file vào — lại đúng lớp lỗi "đọc trạng thái tạm thời như sự thật" |
 | 8 | Comment trong `edgar.py`: "30 hồ sơ Not Applicable bị chấm 0" | Đo lại trên dữ liệu trước khi sửa: **14** trong mẫu chấm điểm, **206** trong toàn bộ lần chạy |
 | 9 | §2: "12 unit test luật" cho Phụ lục A.1 | Đếm được 7 test luật trong `test_text_modules.py` cộng 4 test Phụ lục A.2 |
 | 10 | §4 A8: "beta và IVOL trên cửa sổ 60 tháng tối thiểu 24" | Phụ lục B chỉ nêu mức tối thiểu 24 tháng cho **CoSkew**; áp cho beta và IVOL là lựa chọn của code (mục 5 #42) |
