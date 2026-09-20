@@ -41,6 +41,26 @@ Lần chạy hiện tại (v6): 8,390 báo cáo 10-K tải từ SEC EDGAR, 3,092
 | Bảng 6 Model 1: hệ số (t) | 0.961 (7.10) | 1.320 (7.95) |
 | Bảng 3: Readability, trung vị (byte) | 6,163,418 | 9,280,731 |
 
+## Kiểm chứng mạnh nhất: so với thước đo của chính tác giả
+
+Tác giả công bố thước đo của họ trên Harvard Dataverse (DOI `10.7910/DVN/LCVVG5`, CC0, file
+`flmw_rfs.dta`: 44,972 công ty-năm). Nối theo tên công ty với mẫu chấm điểm ở đây:
+
+| | |
+|---|---|
+| Công ty-năm nối được | 1,716 (1,407 công ty) |
+| Trung bình: bản này / tác giả | 0.2672 / 0.2675 |
+| **Tương quan Pearson** | **0.953** (Spearman 0.942) |
+| Sai lệch tuyệt đối trung bình | 0.033; 80.6% nằm trong 0.05 |
+
+```bash
+python3 -m cyberrisk.compare_authors cyberrisk/data/results/scores_v6.csv   # tự tải file của tác giả
+```
+
+Bộ của tác giả có code SAS và Stata cho phần tài chính, nhưng **không có code xử lý văn bản** (SAS
+chỉ nhập điểm tương đồng từ một file Excel), và 19 trong 20 file dữ liệu đã bị xóa hết giá trị, chỉ
+còn tiêu đề. Chi tiết và danh sách những định nghĩa mà code của họ chốt lại giúp: `cyberrisk/EVALUATION.md` mục 13.
+
 ## Chưa làm được, và vì sao
 
 Tất cả đều vì thiếu dữ liệu có giấy phép, không phải vì thiếu code.

@@ -19,6 +19,7 @@ Ngày 2026-09-09. Mục tiêu đặt ra: dựng lại toàn bộ bài, kiểm tr
 | Top-20 từ trùng | 20 | 18 |
 | Bảng 6 Model 1 (logit tấn công năm sau): dấu và t-stat | +, 7.10 | +, 7.95 |
 
+* **Kiểm chứng mạnh nhất (2026-09-20, mục 13):** tác giả có công bố thước đo của họ trên Harvard Dataverse. Nối theo tên công ty, trên 1,716 công ty-năm chung, **tương quan giữa điểm của bản này và điểm của tác giả là 0.953** (Spearman 0.942), trung bình 0.2672 so với 0.2675. Đây là đối chiếu ở mức từng công ty-năm, mạnh hơn mọi so sánh theo thống kê tổng hợp.
 * **Không giống hệt, và không thể giống hệt bằng dữ liệu công khai**:
   * hệ số Bảng 6 là 1.32 so với 0.961 (khoảng tin cậy 95% [0.99, 1.65] so với khoảng ≈ [0.70, 1.23] của bài);
   * trung vị điểm là 0.323 so với 0.28, cao hơn bài ở cả hai nửa khi chia đôi mẫu (mean, P75, P99 thì sát);
@@ -579,3 +580,62 @@ Chín mục này **chưa sửa**: nhóm nửa tài chính chưa được chọn 
 * Tôi báo "bản clone sạch 68 pass, 6 skip" sau khi đo trên thư mục đã bị ô notebook tải thêm file; số đúng là 64 pass, 10 skip (12.1 mục 7).
 * Tôi so file CSV công bố với pickle bằng cách gán chỉ mục theo `accession`, trong khi 9 bản sao hồ sơ nộp chung dùng chung accession, và kết luận sai rằng có sai lệch 0.0197. Khóa lại theo (accession, cik, bản sao) thì lệch lớn nhất là 1e-16.
 * Test đối chiếu logit tôi viết lần đầu chỉ tính một trong hai hệ số hiệu chỉnh mẫu nhỏ của statsmodels; test fail và tôi sửa công thức, không sửa ngưỡng.
+
+## 13. Code và dữ liệu của chính tác giả (tìm thấy 2026-09-20)
+
+**Nguồn.** Trang dữ liệu của Michael Weber (Chicago Booth) dẫn tới Harvard Dataverse, DOI
+`10.7910/DVN/LCVVG5`, "Replication Codes & Data for *Cybersecurity Risk*", giấy phép CC0, 20 file.
+Trong bài không có mục công bố code; chỉ tìm ra qua trang cá nhân của tác giả.
+
+**Có gì trong đó**
+
+| File | Nội dung |
+|---|---|
+| `RFS_Dataverse_Cybersecurity Risk.sas` (441 dòng) | dựng panel: nhập dữ liệu 10-K, tính biến, nối Compustat/CCM, gắn vụ tấn công vào năm tài chính |
+| `RFS_Dataverse_Cybersecurity Risk_Stata_code.do` (584 dòng) | Bảng 2–12: hồi quy, danh mục, Fama-MacBeth, sự kiện SolarWinds |
+| `flmw_rfs.dta` (3.7 MB) | **44,972 công ty-năm kèm `cyber_risk_score_cosine`** — chính thước đo của bài |
+| 17 file còn lại | `Sim_Lag1/2.xlsx`, `10_K.xlsx`, `sample_final.dta`, `monthly_cyber_index.dta`, danh sách vụ tấn công "major", khách hàng SolarWinds, AIA, sở hữu tổ chức, ủy ban rủi ro |
+
+**Cảnh báo quan trọng:** trừ `flmw_rfs.dta`, các file dữ liệu còn lại **rỗng** — chỉ có dòng tiêu đề, mọi ô giá trị trống (kiểm bằng cách đọc thẳng XML của `Sim_Lag1.xlsx`: các ô có định dạng nhưng không có thẻ `<v>`; `sample_final.dta` và `monthly_cyber_index.dta` có 31 và 24 cột, 0 dòng). Vì sao thì **MECHANISM: UNKNOWN**. Hệ quả: chạy lại nguyên xi bộ này là không thể; nhưng thước đo thì có, và code thì đọc được.
+
+**Phần code xử lý văn bản không được công bố.** SAS chỉ `proc import` điểm tương đồng từ `Sim_Lag1.xlsx`. Nghĩa là đúng phần bản này dựng lại — tách Item 1A, luật Phụ lục A, gốc từ, phương trình (1) — vẫn là hộp đen; cái công bố là **đầu ra** của nó.
+
+### 13.1 So trực tiếp thước đo: 0.95
+
+Nối theo tên công ty (chuẩn hóa hai phía, chỉ giữ tên định danh duy nhất một gvkey và một CIK), rồi ghép theo (tên, năm tài chính):
+
+| | |
+|---|---|
+| Công ty-năm nối được | 1,716 trên 3,092 của mẫu chấm điểm (55%), 1,407 công ty |
+| Trung bình: bản này / tác giả | 0.2672 / 0.2675 |
+| Trung vị | 0.3487 / 0.3352 |
+| Tỷ lệ điểm 0 | 37.6% / 35.6% |
+| **Tương quan Pearson** | **0.953** |
+| Tương quan hạng Spearman | 0.942 |
+| Sai lệch tuyệt đối trung bình / trung vị | 0.033 / 0.013; 80.6% nằm trong 0.05 |
+| Chỉ riêng công ty-năm hai bên đều dương (N = 1,056) | r = 0.870, sai lệch trung bình 0.039 |
+
+Theo từng năm, tương quan nằm trong khoảng 0.85–0.97. Trên **cùng** tập công ty-năm, trung bình hai thước đo bằng nhau tới 0.0003, trong khi trên toàn mẫu bản này là 0.254 so với 0.24 của bài. Quan sát: phần chênh ở Bảng 3 đến từ **thành phần mẫu** (mẫu ngẫu nhiên EDGAR có tên sàn so với vũ trụ Compustat), không phải từ cách đo.
+
+Kiểm chứng phụ: phân phối trong `flmw_rfs.dta` tái lập đúng Bảng 3 của bài (mean 0.2376, sd 0.2214, p50 0.2752, p75 0.4452, p99 0.609), và trung bình theo năm trùng số tôi **đọc từ Hình 1** tới 0.001 (ví dụ 2013: 0.269 so với 0.270; 2016: 0.402 so với 0.403) — xác nhận cách đọc biểu đồ ở mục 9.3.
+
+### 13.2 Những chỗ code của tác giả chốt lại giúp
+
+| Điểm | Code của tác giả | Bản này |
+|---|---|---|
+| `Readability` | `lnread = log(paperTXTFileSize)` — log của kích thước file .txt tính bằng **byte** | Đúng (mục 4 C13 suy ra bằng thí nghiệm, nay có xác nhận) |
+| Số câu công bố dạng log | `log(1 + sentencescounter)` | Đúng (ln1p) |
+| **`Risk section length`** | `risk_length = numRiskFactorSentencesTotal − sentencescounter`, rồi `log(1 + risk_length)` — **trừ đi số câu an ninh mạng** | **Lệch**: bản này lấy toàn bộ số câu Item 1A, không trừ |
+| **`Precise words`** | `precise_w = − sent_uncert2_w`, tức **âm của tỷ lệ từ Uncertainty (LM)** | **Lệch**: bản này dùng danh sách Strong_Modal (mục 5 #9) |
+| **Mẫu số của tỷ lệ từ** | `totalWordsadj` — tổng số từ **sau khi loại** stop words và các loại từ khác | **Lệch**: bản này chia cho số token thô của đoạn công bố |
+| **`insurance`** | `if find(up_sentencesdescription,'INSURANCE') then insurance = 1` — chỉ cần **nhắc tới** bảo hiểm | **Lệch**: bản này đòi thêm cụm "chỉ bảo hiểm một phần" (theo đúng câu chữ Phụ lục B, nhưng khác code của họ) |
+| Bảng 2 | winsorize 1/99 các tỷ lệ từ và số câu **trước khi** tính tương quan; báo cả bản lọc `sim > 0` | **Lệch**: bản này không winsorize |
+| **P1 của Bảng 7** | `replace cyberrisk_port_q = 0 if sorting_var == 0`, phần còn lại chia 2 nhóm bằng `xtile` | **Trùng** — mục 11.3 từng ghi đây là chỗ nghi lệch; nay đóng lại |
+| Winsorize | `winsor2 $controls, cuts(1 99) by(fyear)` và **dùng biến `_w`** trong Bảng 3, 4, 5, 6 | **Lệch**: bản này chỉ winsorize trong Bảng 3 (mục 12.3 #9 được xác nhận) |
+| Bảng 4 Model 2 | `areg ..., absorb(gvkey)` — Stata trừ bậc tự do của hiệu ứng cố định bị hấp thụ | **Lệch**: `ols_fe` không trừ (mục 12.3 #4 được xác nhận) |
+| Bảng 5 | `reg ncskew_w L1.sim_breaches_t_1_all $controls3 i.fyear` — chỉ trễ điểm, hiệu ứng cố định **chỉ theo năm** | Bản này trễ đúng điểm (khớp) nhưng thêm cả hiệu ứng cố định ngành |
+| Bảng 6 | `logit atleast1attack_1 ... ind_ff12_dum* i.fyear, vce(cluster gvkey)`; biến phụ thuộc là vụ tấn công ở **năm tài chính kế tiếp** (lead 1) | Khớp; biến thể V0 của bản này là cách đọc gần nhất |
+| Bảng 9 | `asreg ..., fmb newey(4)` — Newey-West **4 lag** | **Lệch**: bản này dùng 12 lag cho cả Fama-MacBeth |
+| Bảng 7–8 | `newey ..., lag(12)` | Khớp |
+
+Mười mục "lệch" ở trên **chưa sửa**: sửa bốn mục đầu sẽ đổi số của Bảng 2 và Bảng 3 ở nửa văn bản, nên cần quyết định trước — theo **câu chữ của bài** hay theo **code của tác giả**, vì hai thứ đó khác nhau ở biến `insurance` và `Precise words`.
