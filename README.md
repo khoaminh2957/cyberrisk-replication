@@ -24,7 +24,7 @@ Mở notebook bằng nút Colab ở trên để xem tóm tắt và chạy lại 
 | Bảng 6 Model 1 | Xong, thiết kế khác | Case-control, vì không liệt kê được 41,140 công ty-năm của bài |
 | Bảng 4–5, 7–12, IA7–IA14 | Code xong, **chưa ra số** | Thiếu WRDS |
 
-Bộ test: 76 test. Trong bản clone sạch: **64 pass, 10 skip** — 10 test cần dữ liệu không kèm repo (4 hồ sơ 10-K của Phụ lục A.2, bản PRC đầy đủ, index EDGAR, từ điển Loughran–McDonald, cache EDGAR, test mạng). Sau khi notebook tải hai thứ đầu: **69 pass, 5 skip**. Trên máy có đủ dữ liệu: 75 pass và 1 test mạng.
+Bộ test: 76 test. Trong bản clone sạch: **66 pass, 10 skip** — 10 test cần dữ liệu không kèm repo (4 hồ sơ 10-K của Phụ lục A.2, bản PRC đầy đủ, index EDGAR, từ điển Loughran–McDonald, cache EDGAR, test mạng). Sau khi notebook tải hai thứ đầu: **71 pass, 5 skip**. Trên máy có đủ dữ liệu: 75 pass và 1 test mạng.
 
 Lần chạy hiện tại (v6): 8,390 báo cáo 10-K tải từ SEC EDGAR, 3,092 công ty-năm được chấm điểm.
 
@@ -81,7 +81,7 @@ cyberrisk/
   solarwinds.py robustness.py          Bảng 11–12; IA7–IA14
   pipeline.py replicate_text.py        điều phối lần chạy; so số với bài
   wrds_extract.py                      truy vấn WRDS (viết sẵn, chưa chạy)
-  tests/                               76 test (bản clone sạch: 64 pass, 10 skip vì thiếu dữ liệu lớn)
+  tests/                               76 test (bản clone sạch: 66 pass, 10 skip vì thiếu dữ liệu lớn)
   data/results/                        kết quả lần chạy v6 (điểm từng công ty-năm + các bảng)
 cyberrisk_replication.ipynb            notebook tóm tắt + chạy lại (Colab)
 ```
@@ -90,7 +90,7 @@ cyberrisk_replication.ipynb            notebook tóm tắt + chạy lại (Colab
 
 ```bash
 pip install -r requirements.txt
-python -m pytest cyberrisk/tests -q                    # bản clone sạch: 64 pass, 10 skip (thiếu dữ liệu lớn)
+python -m pytest cyberrisk/tests -q                    # bản clone sạch: 66 pass, 10 skip (thiếu dữ liệu lớn)
 
 export EDGAR_USER_AGENT="Ten Ban email@truong.edu"     # SEC yêu cầu contact trong User-Agent
 python -m cyberrisk.fetch_data appendix-a2             # 4 hồ sơ 10-K của Phụ lục A.2
