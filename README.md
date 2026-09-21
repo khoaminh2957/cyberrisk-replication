@@ -10,7 +10,7 @@ vừa bị tấn công, rồi kiểm xem điểm đó có được thị trườ
 Repo này dựng lại **toàn bộ phương pháp** của bài (một module cho một bước) và **đã ra số cho
 nửa văn bản** bằng dữ liệu công khai. Nửa tài chính cần CRSP/Compustat qua WRDS, hiện không có.
 
-Mở notebook bằng nút Colab ở trên để xem tóm tắt và chạy lại từng bước.
+Mở notebook bằng nút Colab ở trên để xem tóm tắt và chạy lại từng bước. Riêng phần chỉ số rủi ro (§2 của bài) đã làm xong tới đâu, độ chính xác bao nhiêu và còn thiếu gì: xem [`INDEX_STATUS.md`](INDEX_STATUS.md).
 
 ## Đã làm được
 
